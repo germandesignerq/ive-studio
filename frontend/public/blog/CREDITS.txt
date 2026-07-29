@@ -1,0 +1,46 @@
+Blog cover photos — sources and licences
+Все изображения CC0 / public domain: атрибуция не требуется,
+коммерческое использование разрешено. Найдено через openverse.org.
+
+animations-costing-conversions.jpg
+  title:   Diwali, fireworks, long exposure, light trails, light painting
+  licence: cc0 (wordpress)
+  page:    https://wordpress.org/photos/photo/18662458d3/
+
+dark-mode-is-not-a-feature.jpg
+  title:   Laptop dark
+  licence: cc0 (rawpixel)
+  page:    https://www.rawpixel.com/image/6022521/laptop-the-dark-free-public-domain-cc0-image
+
+design-system-nobody-maintains.jpg
+  title:   Color palette sheet
+  licence: cc0 (rawpixel)
+  page:    https://www.rawpixel.com/image/6039260/photo-image-public-domain-rainbow-free
+
+handoff-is-a-process.jpg
+  title:   Sticky notes wall
+  licence: cc0 (rawpixel)
+  page:    https://www.rawpixel.com/image/6036238/photo-image-sticky-note-public-domain-notes
+
+landing-page-design-problem.jpg
+  title:   Seo Computer
+  licence: cc0 (stocksnap)
+  page:    https://stocksnap.io/photo/seo-computer-959IURDRGJ
+
+six-weeks-or-it-never-ships.jpg
+  title:   Calculator Calendar
+  licence: cc0 (stocksnap)
+  page:    https://stocksnap.io/photo/calculator-calendar-RFVHCUGML3
+
+stop-testing-onboarding-on-designers.jpg
+  title:   A person with curly hair wearing a white long-sleeve shirt and black pants is sitting on a grassy area, using a smartphone. The ground is partly concrete, and there is a dark wall and railing in the background.
+  licence: cc0 (wordpress)
+  page:    https://wordpress.org/photos/photo/58467d7201/
+
+what-we-ask-before-we-quote.jpg
+  title:   Writing Drawing
+  licence: cc0 (stocksnap)
+  page:    https://stocksnap.io/photo/writing-drawing-8Y0EDX4VP9
+
+pricing-pages-are-product-design — фото нет, используется
+сгенерированная SVG-обложка (см. src/data/post-covers.tsx).

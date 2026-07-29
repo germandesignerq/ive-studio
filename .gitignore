@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.DS_Store
+*.tsbuildinfo
+
+# личные настройки Claude Code — не для шаринга
+.claude/settings.local.json
