@@ -1,27 +1,27 @@
 # IVE studio
 
-Сайт студии: React + TypeScript + Vite + TailwindCSS на фронте, FastAPI на бэке.
-Перенос со статической вёрстки (6 html-файлов с продублированными CSS и JS) в SPA.
+Studio website: React + TypeScript + Vite + TailwindCSS on the frontend, FastAPI on the backend.
+Rebuilt from static markup (six HTML files with duplicated CSS and JS) into a proper SPA.
 
 ```
 ive-studio/
 ├── frontend/          React 19 + TS + Vite 6 + Tailwind 4
-│   ├── public/        фото команды и обложки проектов
+│   ├── public/        team photos and project covers
 │   └── src/
 │       ├── components/  Nav, Footer, CallModal, LeadForm, WorkGrid, SilkCanvas…
-│       ├── pages/       Home, About, Blog, Post, CaseStudy, Privacy, NotFound
+│       ├── pages/       Home, About, Blog, Post, CaseStudy, Pricing, Privacy, NotFound
 │       ├── hooks/       useReveal, useFollowGlow, useStickyNav, useReducedMotion…
-│       ├── data/        works, posts, reviews, plans, covers — весь контент здесь
-│       └── lib/         клиент API и валидация форм
+│       ├── data/        works, posts, reviews, plans, partners, covers — all content lives here
+│       └── lib/         API client and form validation
 └── backend/           FastAPI + SQLite
     └── app/           main, config, schemas, db, routers/leads
 ```
 
-## Запуск
+## Running it
 
-Нужны два терминала. Бэкенд первым — фронт проксирует на него `/api`.
+You need two terminals. Backend first — the frontend proxies `/api` to it.
 
-### 1. Бэкенд (порт 8000)
+### 1. Backend (port 8000)
 
 ```bash
 cd backend && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
@@ -31,9 +31,9 @@ cd backend && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 cd backend && .venv/bin/uvicorn app.main:app --reload --port 8000
 ```
 
-Документация API: http://127.0.0.1:8000/docs
+API docs: http://127.0.0.1:8000/docs
 
-### 2. Фронтенд (порт 5173)
+### 2. Frontend (port 5173)
 
 ```bash
 cd frontend && npm install
@@ -43,77 +43,83 @@ cd frontend && npm install
 cd frontend && npm run dev
 ```
 
-Сайт: http://localhost:5173
+Site: http://localhost:5173
 
-### Сборка прода
+### Production build
 
 ```bash
 cd frontend && npm run build && npm run preview
 ```
 
-## Что делает бэкенд
+## What the backend does
 
-Единственное, чего не было в статике: **формы теперь реально отправляют заявки.**
-Раньше в каждом html стояло `e.preventDefault()` и `console.log('Lead:', …)` —
-человек видел «Request sent», а заявка не приходила никуда.
+The one thing the static version couldn't do: **the forms actually send leads now.**
+Every HTML file used to have `e.preventDefault()` and `console.log('Lead:', …)` —
+the visitor saw "Request sent" and the lead went nowhere.
 
-| Метод | Путь          | Что делает                                                     |
-| ----- | ------------- | -------------------------------------------------------------- |
-| POST  | `/api/leads`  | принимает заявку с любой формы, валидирует, пишет в SQLite      |
-| GET   | `/api/leads`  | читает заявки, нужен заголовок `X-Admin-Token`                  |
-| GET   | `/api/health` | проверка живости                                                |
+| Method | Path          | What it does                                              |
+| ------ | ------------- | ----------------------------------------------------------- |
+| POST   | `/api/leads`  | accepts a lead from any form, validates it, writes to SQLite |
+| GET    | `/api/leads`  | reads leads back, requires an `X-Admin-Token` header         |
+| GET    | `/api/health` | liveness check                                                |
 
-Заявки лежат в `backend/leads.db`. У каждой есть поле `source` — с какой страницы
-и какой формы пришла (`home: contact form`, `case: sphere`, `blog: cta`…), плюс
-`plan`, если открыли из карточки тарифа.
+Leads are stored in `backend/leads.db`. Each one has a `source` field — which page
+and which form it came from (`home: contact form`, `case: sphere`, `blog: cta`…),
+plus a `plan` field when it came from a pricing card.
 
-Чтение заявок по умолчанию выключено: пока `ADMIN_TOKEN` пуст, `GET /api/leads`
-отдаёт 404. Задайте токен в `backend/.env` (пример — в `.env.example`):
+Reading leads back is off by default: while `ADMIN_TOKEN` is empty, `GET /api/leads`
+returns 404. Set a token in `backend/.env` (see `.env.example`):
 
 ```bash
 cd backend && cp .env.example .env
 ```
 
-## Что перенесено один в один
+## Carried over one-to-one
 
-- Шёлковый канвас на фоне героя и финального CTA.
-- Золотое пятно, догоняющее курсор, — hero, CTA, подвал.
-- Бегущая рамка на карточках (`@property --angle` + conic-gradient).
-- Бесконечная лента отзывов с паузой на ховер.
-- Появление блоков при скролле, счётчики цифр, полоса прогресса чтения.
-- Модалка заявки: обычная и тарифная (с ценой и чипсами «что входит»).
-- Фильтры портфолио и блога, мобильное меню, липкая шапка.
-- Всё это выключается системной настройкой «уменьшить движение».
+- The silk canvas behind the hero and the final CTA.
+- The gold glow that trails the cursor — hero, CTA, footer.
+- Reveal-on-scroll for every section, animated counters, the reading-progress bar.
+- The lead modal: a plain version and a pricing-plan version (price + "what's included" chips).
+- Portfolio and blog filters, the mobile menu, the sticky header.
+- All of it turns off under the system's "reduce motion" setting.
 
-## Что изменилось по сравнению со статикой
+## What changed from the static version
 
-- **Логотип, CSS и скрипты были скопированы в каждый файл** — теперь по одному
-  экземпляру: `components/Logo.tsx`, `index.css`, общие хуки.
-- **Роутинг вместо отдельных html.** Пути: `/`, `/about`, `/blog`, `/blog/:slug`,
-  `/work/:slug`, `/privacy`, плюс страница 404, которой раньше не было.
-- **Контент вынесен из разметки** в `src/data/`. Чтобы добавить проект или статью,
-  добавьте объект в массив — отдельный файл копировать больше не нужно.
-- Токены дизайна (цвета, радиусы, шрифты) объявлены один раз через `@theme`
-  в `index.css` и доступны как обычные утилиты Tailwind: `text-fg-2`, `bg-card`,
-  `border-line`, `rounded-lg-x`.
+- **The logo, CSS and scripts used to be copy-pasted into every file** — now there's
+  one copy of each: `components/Logo.tsx`, `index.css`, shared hooks.
+- **Routing instead of separate HTML files.** Routes: `/`, `/about`, `/blog`,
+  `/blog/:slug`, `/work/:slug`, `/pricing`, `/privacy`, plus a 404 page that didn't
+  exist before.
+- **Content moved out of markup** into `src/data/`. Adding a project or a post is
+  now adding an object to an array — no more copying a whole file.
+- Design tokens (colors, radii, fonts) are declared once via `@theme` in `index.css`
+  and available as plain Tailwind utilities: `text-fg-2`, `bg-card`, `border-line`,
+  `rounded-lg-x`.
+- Nine real blog posts with cited facts, CC0 cover photos and a conversion-funnel
+  block at the end of each article — the static version had one shared placeholder
+  article that every card linked to.
+- A pricing page with a full plan-comparison table, split out from the homepage.
+- A portfolio filter with a dedicated "case studies" tab, and a first real project
+  linking straight out to its live site.
 
-## Что осталось сделать
+## Still open
 
-Пункты из README статики, которые остались открытыми — это контент и юридическое,
-кодом они не закрываются:
+Carried over from the static README — content and legal work, not something code
+can close on its own:
 
-1. **Кейсы и статьи.** Тело кейса и тело статьи пока общие для всех slug — ровно
-   как в статике, где все карточки вели на один `case.html` / `post.html`.
-   Настоящие тексты заводятся отдельными записями в `src/data/`.
-2. **Отзывы и партнёры выдуманы** (`src/data/reviews.ts` и массив `partners`
-   в `pages/Home.tsx`). Цены в `src/data/plans.ts` — заглушки.
-3. **Цифры в About** («9 лет / 140 проектов / 11 человек») не сходятся с командой
-   из двух человек на той же странице. Поставьте настоящие.
-4. **`privacy.html` — черновик.** В квадратных скобках остались юрлицо, адрес,
-   регистрационный номер, сроки хранения и названия сервисов. Перед публикацией
-   показать юристу.
-5. **Превью ссылок и фавиконка.** `og:image` нет ни на одной странице: при отправке
-   ссылки в мессенджер будет пустой прямоугольник. Нужна картинка 1200 × 630.
-   Для SPA теги удобнее отдавать на уровне хостинга или через пререндер.
-6. **Шрифты грузятся с Google Fonts** — значит IP посетителя уходит в Google.
-   Для европейского рынка шрифты лучше положить к себе в `public/`.
+1. **Case studies still share one body.** Every project card without a case-study
+   flag links straight to the client's live site; the ones that do have a
+   case-study (`caseStudy: true` in `src/data/works.ts`) still all render the same
+   Sphere write-up. Real copy needs its own entry per project.
+2. **Reviews and partners are made up** (`src/data/reviews.ts` and
+   `src/data/partners.tsx`). Prices in `src/data/plans.ts` are placeholders.
+3. **The numbers on About** ("9 years / 140 projects / 11 people") don't match the
+   two-person team shown on the same page. Put in the real ones.
+4. **`Privacy.tsx` is a draft.** The bracketed placeholders — legal entity, address,
+   registration number, retention periods, service names — still need filling in.
+   Have a lawyer review it before it goes live.
+5. **Link previews.** There's no `og:image` on any page: sharing a link in a
+   messenger shows an empty rectangle. Needs a 1200×630 image. For an SPA these
+   tags are easier to serve at the hosting layer or via prerendering.
+6. **Fonts load from Google Fonts** — meaning visitor IPs go to Google. For the
+   European market, self-hosting them in `public/` is safer.
