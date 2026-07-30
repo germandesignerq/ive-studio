@@ -172,4 +172,14 @@ export const works: Work[] = [
       'A full crypto exchange platform — live trading, staking, a card and a mobile app, built from one design system.',
     img: '/work-kestra.jpg',
   },
+  {
+    slug: 'feasty',
+    name: 'Feasty',
+    tags: 'Food delivery · Web · Product design',
+    url: 'https://feasty-cyan.vercel.app/',
+    category: 'web',
+    result:
+      'A food delivery storefront — browsable menu, live cart and checkout, built from one design system.',
+    img: '/work-feasty.jpg',
+  },
 ]
