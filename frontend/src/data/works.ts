@@ -175,11 +175,11 @@ export const works: Work[] = [
   {
     slug: 'feasty',
     name: 'Feasty',
-    tags: 'Food delivery · Web · Product design',
+    tags: 'Web · Product design · E-commerce',
     url: 'https://feasty-cyan.vercel.app/',
     category: 'web',
     result:
-      'A food delivery storefront — browsable menu, live cart and checkout, built from one design system.',
+      'Food delivery site end to end — menu, cart, checkout and payment, with an Instagram-style photo slider on the home page.',
     img: '/work-feasty.jpg',
   },
 ]

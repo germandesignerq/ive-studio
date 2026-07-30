@@ -3,5 +3,6 @@ dist/
 .DS_Store
 *.tsbuildinfo
 
-# личные настройки Claude Code — не для шаринга
-.claude/settings.local.json
+# личные настройки и конфиги Claude Code — не для шаринга
+.claude/
+frontend/.claude/
