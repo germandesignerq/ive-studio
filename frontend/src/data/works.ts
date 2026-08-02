@@ -167,7 +167,7 @@ export const works: Work[] = [
     name: 'Kestra',
     tags: 'Fintech · Web · Product design',
     url: 'https://kestra-crypto.vercel.app/',
-    category: 'saas',
+    category: 'landing',
     result:
       'A full crypto exchange platform — live trading, staking, a card and a mobile app, built from one design system.',
     img: '/work-kestra.jpg',
@@ -177,7 +177,7 @@ export const works: Work[] = [
     name: 'Feasty',
     tags: 'Web · Product design · E-commerce',
     url: 'https://feasty-cyan.vercel.app/',
-    category: 'web',
+    category: 'landing',
     result:
       'Food delivery site end to end — menu, cart, checkout and payment, with an Instagram-style photo slider on the home page.',
     img: '/work-feasty.jpg',
