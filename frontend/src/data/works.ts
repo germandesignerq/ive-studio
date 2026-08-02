@@ -182,4 +182,14 @@ export const works: Work[] = [
       'Food delivery site end to end — menu, cart, checkout and payment, with an Instagram-style photo slider on the home page.',
     img: '/work-feasty.jpg',
   },
+  {
+    slug: 'mstpd',
+    name: 'Viacheslav MSTPD',
+    tags: 'Landing · Personal portfolio · Audio',
+    url: 'https://mstpd-portfolio.vercel.app/',
+    category: 'landing',
+    result:
+      'Personal portfolio for a mixing and mastering engineer — audio players, a filterable credits list and booking built into one page.',
+    img: '/work-mstpd.jpg',
+  },
 ]
