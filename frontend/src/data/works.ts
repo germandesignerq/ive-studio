@@ -192,4 +192,14 @@ export const works: Work[] = [
       'Personal portfolio for a mixing and mastering engineer — audio players, a filterable credits list and booking built into one page.',
     img: '/work-mstpd.jpg',
   },
+  {
+    slug: 'casa-marena',
+    name: 'Casa Marena',
+    tags: 'Hospitality · Web · Booking',
+    url: 'https://casa-marena.vercel.app/',
+    category: 'landing',
+    result:
+      'Booking site for a nine-room Positano hotel — room search and filters, dining pre-orders, a live map and multi-currency pricing in five languages.',
+    img: '/work-casa-marena.jpg',
+  },
 ]
