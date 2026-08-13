@@ -9,6 +9,7 @@ import { LeadForm } from '@/components/LeadForm'
 import { useFollowGlow } from '@/hooks/useFollowGlow'
 import { usePageMeta } from '@/hooks/usePageMeta'
 import { useCallModal } from '@/context/CallModalContext'
+import { useLanguage, useLocalized } from '@/i18n/LanguageContext'
 import { Check } from '@/components/icons'
 
 const SOURCE = 'home'
@@ -20,6 +21,8 @@ export function Home() {
   )
   const heroRef = useFollowGlow<HTMLElement>(50, 44)
   const { openCall } = useCallModal()
+  const { t } = useLanguage()
+  const pick = useLocalized()
 
   return (
     <>
@@ -35,13 +38,12 @@ export function Home() {
         <HeroVeil />
         <div className="wrap relative z-[2]">
           <h1 className="max-w-[13ch] text-[clamp(48px,8vw,104px)] tracking-[-.05em] max-[680px]:max-w-none">
-            Design. Build. <span className="em-u">Launch.</span>
+            {t.home.heroLine1}
+            <span className="em-u">{t.home.heroEm}</span>
           </h1>
           <p className="mt-[30px] max-w-[46ch] text-[clamp(18px,1.7vw,22px)] leading-[1.5] font-light text-fg-2">
-            <b className="font-medium text-fg">
-              We design and build websites that actually convert.
-            </b>{' '}
-            UX/UI design and development for startups and growing businesses.
+            <b className="font-medium text-fg">{t.home.heroBoldSub}</b>
+            {t.home.heroSub}
           </p>
           <div className="mt-10 flex flex-wrap gap-[14px]">
             <button
@@ -49,10 +51,10 @@ export function Home() {
               className="btn btn-primary"
               onClick={() => openCall({ source: `${SOURCE}: hero` })}
             >
-              Start a project
+              {t.common.startProject}
             </button>
             <a className="btn btn-ghost" href="#work">
-              See projects
+              {t.common.seeProjects}
             </a>
           </div>
         </div>
@@ -61,16 +63,16 @@ export function Home() {
       {/* ── PROBLEM ── */}
       <Section tight>
         <Reveal as="span" className="eyebrow">
-          The problem
+          {t.home.problemEyebrow}
         </Reveal>
         <Reveal as="h2" className="mt-4 max-w-[17ch] text-[clamp(32px,4.8vw,60px)] tracking-[-.042em] max-[680px]:max-w-none">
-          Most websites look good —<br />
-          but don&apos;t bring <span className="em">results.</span>
+          {t.home.problemTitle1}<br />
+          <span className="em">{t.home.problemTitleEm}</span>
         </Reveal>
         <Reveal className="mt-16 grid grid-cols-3 border-t border-line max-[1000px]:grid-cols-1">
           {problems.map((p, i) => (
             <div
-              key={p.title}
+              key={p.title.en}
               className={`group glow-top border-line p-[34px_36px_42px] max-[1000px]:border-r-0 max-[1000px]:border-b max-[1000px]:p-[28px_0_30px] max-[1000px]:last:border-b-0 ${
                 i === 0 ? 'pl-0' : ''
               } ${i === problems.length - 1 ? 'border-r-0 pr-0' : 'border-r'}`}
@@ -79,9 +81,9 @@ export function Home() {
                 {p.icon}
               </span>
               <h3 className="mt-[22px] mb-3 min-h-[2.1em] max-w-[18ch] text-[23px] font-medium tracking-[-.025em] max-[1000px]:min-h-0 max-[1000px]:max-w-none">
-                {p.title}
+                {pick(p.title)}
               </h3>
-              <p className="max-w-[28ch] text-[16px] leading-[1.5] font-light text-fg-2">{p.text}</p>
+              <p className="max-w-[28ch] text-[16px] leading-[1.5] font-light text-fg-2">{pick(p.text)}</p>
             </div>
           ))}
         </Reveal>
@@ -90,32 +92,32 @@ export function Home() {
       {/* ── SERVICES ── */}
       <Section id="services">
         <Reveal as="span" className="eyebrow">
-          Services
+          {t.home.servicesEyebrow}
         </Reveal>
         <Reveal as="h2" className="mt-4 max-w-[17ch] text-[clamp(32px,4.8vw,60px)] tracking-[-.042em] max-[680px]:max-w-none">
-          We help you launch faster
+          {t.home.servicesTitle1}
           <br />
-          and grow <span className="em">smarter.</span>
+          {t.home.servicesTitle2}<span className="em">{t.home.servicesTitleEm}</span>
         </Reveal>
         <div className="mt-[58px] grid grid-cols-2 gap-[22px] max-[680px]:grid-cols-1">
           {services.map((s, i) => (
             <Reveal
-              key={s.title}
+              key={s.title.en}
               delay={(i % 4) * 70}
               className="card glow-top p-[40px_40px_44px] max-[680px]:p-[30px_26px_34px]"
             >
               <div className="ico mb-[26px] h-[54px] w-[54px] rounded-[15px]">{s.icon}</div>
-              <h3 className="mb-[14px] text-[28px] font-medium tracking-[-.03em]">{s.title}</h3>
+              <h3 className="mb-[14px] text-[28px] font-medium tracking-[-.03em]">{pick(s.title)}</h3>
               <p className="max-w-[34ch] text-[16.5px] leading-[1.5] font-light text-fg-2">
-                {s.text}
+                {pick(s.text)}
               </p>
               <div className="mt-[22px] flex flex-wrap gap-2">
                 {s.items.map((item) => (
                   <span
-                    key={item}
+                    key={item.en}
                     className="rounded-full border border-line px-[14px] py-[5px] text-[13.5px] text-fg-3"
                   >
-                    {item}
+                    {pick(item)}
                   </span>
                 ))}
               </div>
@@ -127,10 +129,10 @@ export function Home() {
       {/* ── PROCESS ── */}
       <Section tight id="process">
         <Reveal as="span" className="eyebrow">
-          Process
+          {t.home.processEyebrow}
         </Reveal>
         <Reveal as="h2" className="mt-4 text-[clamp(32px,4.8vw,60px)] tracking-[-.042em]">
-          Simple process. <span className="em">Fast results.</span>
+          {t.home.processTitle}<span className="em">{t.home.processTitleEm}</span>
         </Reveal>
         <Reveal className="mt-[58px] grid grid-cols-4 border-t border-line max-[1000px]:grid-cols-2 max-[680px]:grid-cols-1">
           {steps.map((s, i) => (
@@ -143,11 +145,11 @@ export function Home() {
               <div className="font-label text-[15.5px] tracking-[.18em] text-gold transition-colors group-hover:text-gold-soft">
                 {s.no}
               </div>
-              <h3 className="mt-4 mb-3 text-[22px] font-medium tracking-[-.025em]">{s.title}</h3>
+              <h3 className="mt-4 mb-3 text-[22px] font-medium tracking-[-.025em]">{pick(s.title)}</h3>
               <p className="max-w-[24ch] flex-1 text-[15.5px] leading-[1.5] font-light text-fg-2">
-                {s.text}
+                {pick(s.text)}
               </p>
-              <div className="mt-5 font-label text-[17px] text-fg-2">{s.when}</div>
+              <div className="mt-5 font-label text-[17px] text-fg-2">{pick(s.when)}</div>
             </div>
           ))}
         </Reveal>
@@ -157,13 +159,13 @@ export function Home() {
       <Section tight id="work">
         <Reveal className="flex flex-wrap items-end justify-between gap-[30px]">
           <div>
-            <span className="eyebrow">Portfolio</span>
+            <span className="eyebrow">{t.home.portfolioEyebrow}</span>
             <h2 className="mt-4 text-[clamp(32px,4.8vw,60px)] tracking-[-.042em]">
-              Selected <span className="em">projects.</span>
+              {t.home.portfolioTitle}<span className="em">{t.home.portfolioTitleEm}</span>
             </h2>
           </div>
           <p className="mb-[6px] max-w-[48ch] text-[18px] leading-[1.5] font-light text-fg-2">
-            Every project below shipped — and moved a number that mattered.
+            {t.home.portfolioLead}
           </p>
         </Reveal>
         <WorkGrid />
@@ -173,13 +175,13 @@ export function Home() {
       <Section tight id="reviews">
         <Reveal className="flex flex-wrap items-end justify-between gap-[30px]">
           <div>
-            <span className="eyebrow">Client reviews</span>
+            <span className="eyebrow">{t.home.reviewsEyebrow}</span>
             <h2 className="mt-4 text-[clamp(32px,4.8vw,60px)] tracking-[-.042em]">
-              The people who <span className="em">hired us.</span>
+              {t.home.reviewsTitle}<span className="em">{t.home.reviewsTitleEm}</span>
             </h2>
           </div>
           <p className="mb-[6px] max-w-[48ch] text-[18px] leading-[1.5] font-light text-fg-2">
-            Founders and marketing leads who shipped a site with us — and what it changed.
+            {t.home.reviewsLead}
           </p>
         </Reveal>
 
@@ -197,17 +199,17 @@ export function Home() {
       {/* ── RESULTS ── */}
       <Section>
         <Reveal as="span" className="eyebrow">
-          Results
+          {t.home.resultsEyebrow}
         </Reveal>
         <Reveal as="h2" className="mt-4 max-w-[17ch] text-[clamp(32px,4.8vw,60px)] tracking-[-.042em] max-[680px]:max-w-none">
-          Built for performance,
+          {t.home.resultsTitle1}
           <br />
-          not just <span className="em">visuals.</span>
+          <span className="em">{t.home.resultsTitleEm}</span>
         </Reveal>
         <div className="mt-[58px] grid grid-cols-3 gap-[22px] max-[1000px]:grid-cols-1">
           {results.map((r, i) => (
             <Reveal
-              key={r.title}
+              key={r.title.en}
               delay={(i % 4) * 70}
               style={{ '--draw-delay': `${(i % 4) * 70}ms` } as React.CSSProperties}
               className="group glow-top rounded-lg-x border border-[rgba(233,201,127,.2)] bg-[linear-gradient(180deg,rgba(233,201,127,.06),transparent_60%)] p-[38px_34px_40px] transition-[transform,border-color] duration-[350ms] hover:-translate-y-1 hover:border-[rgba(233,201,127,.42)]"
@@ -216,9 +218,9 @@ export function Home() {
                 <span className="draw flex-none text-gold transition-colors duration-[350ms] group-hover:text-gold-soft">
                   {r.icon}
                 </span>
-                {r.title}
+                {pick(r.title)}
               </h3>
-              <p className="max-w-[28ch] text-[16px] leading-[1.5] font-light text-fg-2">{r.text}</p>
+              <p className="max-w-[28ch] text-[16px] leading-[1.5] font-light text-fg-2">{pick(r.text)}</p>
             </Reveal>
           ))}
         </div>
@@ -227,10 +229,10 @@ export function Home() {
       {/* ── WHY US ── */}
       <Section tight>
         <Reveal as="span" className="eyebrow">
-          Why us
+          {t.home.whyEyebrow}
         </Reveal>
         <Reveal as="h2" className="mt-4 text-[clamp(32px,4.8vw,60px)] tracking-[-.042em]">
-          Why work <span className="em">with us.</span>
+          {t.home.whyTitle}<span className="em">{t.home.whyTitleEm}</span>
         </Reveal>
         <Reveal as="ul" className="mt-[52px] grid grid-cols-2 gap-x-[60px] max-[1000px]:grid-cols-1">
           {why.map((w) => (
@@ -239,9 +241,9 @@ export function Home() {
                 {w.k}
               </span>
               <div>
-                <h3 className="text-[21px] font-medium tracking-[-.02em]">{w.title}</h3>
+                <h3 className="text-[21px] font-medium tracking-[-.02em]">{pick(w.title)}</h3>
                 <p className="mt-2 max-w-[32ch] text-[15.5px] leading-[1.5] font-light text-fg-2">
-                  {w.text}
+                  {pick(w.text)}
                 </p>
               </div>
             </li>
@@ -259,6 +261,8 @@ export function Home() {
 
 function ClosingSection() {
   const ref = useFollowGlow<HTMLElement>(50, 50)
+  const { t } = useLanguage()
+  const pick = useLocalized()
 
   return (
     <section
@@ -277,16 +281,16 @@ function ClosingSection() {
       <div className="wrap relative z-[2] grid grid-cols-2 items-start gap-[70px] max-[1000px]:grid-cols-1 max-[1000px]:gap-12">
         <div>
           <h2 className="max-w-[12ch] text-[clamp(38px,5.4vw,68px)] tracking-[-.042em]">
-            Have an idea? <span className="em-u">Let&apos;s build it.</span>
+            {t.home.ctaTitle}<span className="em-u">{t.home.ctaTitleEm}</span>
           </h2>
           <p className="mt-5 max-w-[48ch] text-[18px] leading-[1.5] font-light text-fg-2">
-            Book a free call and we&apos;ll discuss your project.
+            {t.home.ctaLead}
           </p>
           <ul className="mt-[42px] grid gap-4">
             {assurances.map((a) => (
-              <li key={a} className="flex items-start gap-[13px] text-[16.5px] font-light text-fg-2">
+              <li key={a.en} className="flex items-start gap-[13px] text-[16.5px] font-light text-fg-2">
                 <Check className="mt-[5px] flex-none text-gold" />
-                <span>{a}</span>
+                <span>{pick(a)}</span>
               </li>
             ))}
           </ul>
@@ -340,8 +344,11 @@ const stroke = {
 
 const problems = [
   {
-    title: 'Poor UX kills conversions',
-    text: 'Traffic arrives. Nobody signs up. The funnel leaks where nobody’s looking.',
+    title: { en: 'Poor UX kills conversions', ru: 'Плохой UX убивает конверсии' },
+    text: {
+      en: 'Traffic arrives. Nobody signs up. The funnel leaks where nobody’s looking.',
+      ru: 'Трафик приходит. Никто не регистрируется. Воронка течёт там, куда никто не смотрит.',
+    },
     icon: (
       <svg width="19" height="19" viewBox="0 0 24 24" {...stroke}>
         <path d="M3.4 4.6h17.2l-6.6 7.7v5.9l-4 2.4v-8.3z" />
@@ -354,8 +361,11 @@ const problems = [
     ),
   },
   {
-    title: 'Delivery drags for months',
-    text: 'Your launch window closes while the site is still in review.',
+    title: { en: 'Delivery drags for months', ru: 'Разработка тянется месяцами' },
+    text: {
+      en: 'Your launch window closes while the site is still in review.',
+      ru: 'Окно для запуска закрывается, пока сайт всё ещё на согласовании.',
+    },
     icon: (
       <svg width="19" height="19" viewBox="0 0 24 24" {...stroke}>
         <path d="M6.5 3h11M6.5 21h11" />
@@ -365,8 +375,11 @@ const problems = [
     ),
   },
   {
-    title: "Design and dev don't talk",
-    text: 'Two vendors, one blame game. The build never matches the mockup.',
+    title: { en: "Design and dev don't talk", ru: 'Дизайн и разработка не общаются' },
+    text: {
+      en: 'Two vendors, one blame game. The build never matches the mockup.',
+      ru: 'Два подрядчика — и вечный поиск виноватого. Сайт никогда не совпадает с макетом.',
+    },
     icon: (
       <svg width="19" height="19" viewBox="0 0 24 24" {...stroke}>
         <path d="M10 14.6l-2.1 2.1a3.6 3.6 0 0 1-5.1-5.1l2.1-2.1" />
@@ -379,9 +392,17 @@ const problems = [
 
 const services = [
   {
-    title: 'UX/UI Design',
-    text: 'Interfaces built around one path: the one that ends in a signup.',
-    items: ['Research', 'Flows', 'UI', 'Design system'],
+    title: { en: 'UX/UI Design', ru: 'UX/UI-дизайн' },
+    text: {
+      en: 'Interfaces built around one path: the one that ends in a signup.',
+      ru: 'Интерфейсы вокруг одного пути — того, что заканчивается регистрацией.',
+    },
+    items: [
+      { en: 'Research', ru: 'Research' },
+      { en: 'Flows', ru: 'Flows' },
+      { en: 'UI', ru: 'UI' },
+      { en: 'Design system', ru: 'Design system' },
+    ],
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" {...stroke} strokeWidth={1.6}>
         <rect x="3" y="3" width="18" height="18" rx="3" />
@@ -392,9 +413,17 @@ const services = [
     ),
   },
   {
-    title: 'Web Development',
-    text: 'Fast, accessible, SEO-ready builds. Pixel-perfect, no excuses.',
-    items: ['React', 'Vite', 'CMS', 'Analytics'],
+    title: { en: 'Web Development', ru: 'Веб-разработка' },
+    text: {
+      en: 'Fast, accessible, SEO-ready builds. Pixel-perfect, no excuses.',
+      ru: 'Быстрые, доступные, готовые к SEO сайты. Пиксель в пиксель — без оговорок.',
+    },
+    items: [
+      { en: 'React', ru: 'React' },
+      { en: 'Vite', ru: 'Vite' },
+      { en: 'CMS', ru: 'CMS' },
+      { en: 'Analytics', ru: 'Аналитика' },
+    ],
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" {...stroke} strokeWidth={1.6}>
         <path d="M8.5 7.5L3.5 12l5 4.5" />
@@ -404,9 +433,17 @@ const services = [
     ),
   },
   {
-    title: 'SaaS & MVP',
-    text: 'From idea to a product real users can pay for — in weeks, not quarters.',
-    items: ['Onboarding', 'Dashboards', 'Design system', 'Handoff'],
+    title: { en: 'SaaS & MVP', ru: 'SaaS и MVP' },
+    text: {
+      en: 'From idea to a product real users can pay for — in weeks, not quarters.',
+      ru: 'От идеи до продукта, за который платят реальные пользователи — за недели, не кварталы.',
+    },
+    items: [
+      { en: 'Onboarding', ru: 'Онбординг' },
+      { en: 'Dashboards', ru: 'Дашборды' },
+      { en: 'Design system', ru: 'Design system' },
+      { en: 'Handoff', ru: 'Handoff' },
+    ],
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" {...stroke} strokeWidth={1.6}>
         <path d="M12 3l8.5 4.8-8.5 4.8L3.5 7.8z" />
@@ -416,9 +453,17 @@ const services = [
     ),
   },
   {
-    title: 'Landing Pages',
-    text: 'One page, one job. Built to be tested, not admired.',
-    items: ['Copy structure', 'A/B ready', 'Speed', 'Tracking'],
+    title: { en: 'Landing Pages', ru: 'Лендинги' },
+    text: {
+      en: 'One page, one job. Built to be tested, not admired.',
+      ru: 'Одна страница — одна задача. Сделана, чтобы её тестировали, а не любовались ей.',
+    },
+    items: [
+      { en: 'Copy structure', ru: 'Структура текста' },
+      { en: 'A/B ready', ru: 'Готово к A/B' },
+      { en: 'Speed', ru: 'Скорость' },
+      { en: 'Tracking', ru: 'Трекинг' },
+    ],
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" {...stroke} strokeWidth={1.6}>
         <rect x="4" y="2.5" width="16" height="19" rx="3" />
@@ -433,34 +478,49 @@ const services = [
 const steps = [
   {
     no: '01',
-    title: 'Discovery & Strategy',
-    text: 'Your goals, your numbers, your users. One clear target before anyone opens Figma.',
-    when: 'Week 1',
+    title: { en: 'Discovery & Strategy', ru: 'Discovery и стратегия' },
+    text: {
+      en: 'Your goals, your numbers, your users. One clear target before anyone opens Figma.',
+      ru: 'Ваши цели, ваши цифры, ваши пользователи. Одна ясная цель до того, как кто-то откроет Figma.',
+    },
+    when: { en: 'Week 1', ru: 'Неделя 1' },
   },
   {
     no: '02',
-    title: 'UX & Design',
-    text: 'Flows first, pixels second. You see real screens, not moodboards.',
-    when: 'Weeks 2–4',
+    title: { en: 'UX & Design', ru: 'UX и дизайн' },
+    text: {
+      en: 'Flows first, pixels second. You see real screens, not moodboards.',
+      ru: 'Сначала сценарии, потом пиксели. Вы видите реальные экраны, а не мудборды.',
+    },
+    when: { en: 'Weeks 2–4', ru: 'Недели 2–4' },
   },
   {
     no: '03',
-    title: 'Development',
-    text: 'Same team, same standards. Weekly demos on a live link.',
-    when: 'Weeks 4–8',
+    title: { en: 'Development', ru: 'Разработка' },
+    text: {
+      en: 'Same team, same standards. Weekly demos on a live link.',
+      ru: 'Та же команда, те же стандарты. Еженедельные демо на живой ссылке.',
+    },
+    when: { en: 'Weeks 4–8', ru: 'Недели 4–8' },
   },
   {
     no: '04',
-    title: 'Launch',
-    text: 'Ship, measure, fix. We stay a month after go-live.',
-    when: 'Week 9',
+    title: { en: 'Launch', ru: 'Запуск' },
+    text: {
+      en: 'Ship, measure, fix. We stay a month after go-live.',
+      ru: 'Запускаем, замеряем, правим. Остаёмся на связи ещё месяц после запуска.',
+    },
+    when: { en: 'Week 9', ru: 'Неделя 9' },
   },
 ]
 
 const results = [
   {
-    title: 'Better UX',
-    text: 'Fewer steps, clearer copy, no dead ends. Users get where they were going.',
+    title: { en: 'Better UX', ru: 'Лучший UX' },
+    text: {
+      en: 'Fewer steps, clearer copy, no dead ends. Users get where they were going.',
+      ru: 'Меньше шагов, понятнее текст, никаких тупиков. Пользователи доходят туда, куда шли.',
+    },
     icon: (
       <svg width="21" height="21" viewBox="0 0 24 24" {...stroke} strokeWidth={1.7}>
         <path pathLength={1} d="M3 12h4l2.5-6 4 13 2.5-7h5" />
@@ -468,8 +528,11 @@ const results = [
     ),
   },
   {
-    title: 'Higher conversions',
-    text: 'Every screen has one job. We measure it, then we improve it.',
+    title: { en: 'Higher conversions', ru: 'Выше конверсии' },
+    text: {
+      en: 'Every screen has one job. We measure it, then we improve it.',
+      ru: 'У каждого экрана одна задача. Мы её измеряем, потом улучшаем.',
+    },
     icon: (
       <svg width="21" height="21" viewBox="0 0 24 24" {...stroke} strokeWidth={1.7}>
         <path pathLength={1} d="M4 18L11 11l3.5 3.5L21 7" />
@@ -478,8 +541,11 @@ const results = [
     ),
   },
   {
-    title: 'Faster launch',
-    text: 'Weeks to live, not quarters. You start learning from real users sooner.',
+    title: { en: 'Faster launch', ru: 'Быстрее запуск' },
+    text: {
+      en: 'Weeks to live, not quarters. You start learning from real users sooner.',
+      ru: 'Недели до запуска, а не кварталы. Вы раньше начинаете учиться на реальных пользователях.',
+    },
     icon: (
       <svg width="21" height="21" viewBox="0 0 24 24" {...stroke} strokeWidth={1.7}>
         <path pathLength={1} d="M13 2.5L5 13.5h6l-1 8 8-11h-6z" />
@@ -491,28 +557,49 @@ const results = [
 const why = [
   {
     k: '01',
-    title: 'Small team, direct communication',
-    text: 'You talk to the people building it. No account managers in between.',
+    title: { en: 'Small team, direct communication', ru: 'Маленькая команда, прямое общение' },
+    text: {
+      en: 'You talk to the people building it. No account managers in between.',
+      ru: 'Вы общаетесь с теми, кто это строит. Никаких менеджеров-посредников.',
+    },
   },
   {
     k: '02',
-    title: 'Design and development in one place',
-    text: 'One team, one timeline, one invoice. Nothing gets lost in handoff.',
+    title: { en: 'Design and development in one place', ru: 'Дизайн и разработка в одном месте' },
+    text: {
+      en: 'One team, one timeline, one invoice. Nothing gets lost in handoff.',
+      ru: 'Одна команда, один график, один счёт. Ничего не теряется при передаче.',
+    },
   },
   {
     k: '03',
-    title: 'Fast delivery',
-    text: 'Fixed scope, weekly demos, dates we actually hit.',
+    title: { en: 'Fast delivery', ru: 'Быстрая сдача' },
+    text: {
+      en: 'Fixed scope, weekly demos, dates we actually hit.',
+      ru: 'Фиксированный объём, еженедельные демо, сроки, которые мы реально соблюдаем.',
+    },
   },
   {
     k: '04',
-    title: 'SaaS experience',
-    text: "Onboarding, pricing pages, dashboards. We've shipped them before.",
+    title: { en: 'SaaS experience', ru: 'Опыт в SaaS' },
+    text: {
+      en: "Onboarding, pricing pages, dashboards. We've shipped them before.",
+      ru: 'Онбординг, страницы с тарифами, дашборды. Мы уже это делали.',
+    },
   },
 ]
 
 const assurances = [
-  '30 minutes, no pitch deck — we talk about your project.',
-  'You leave with a scope, a timeline and a number.',
-  'We reply within 24 hours, always a human.',
+  {
+    en: '30 minutes, no pitch deck — we talk about your project.',
+    ru: '30 минут, без презентаций — просто разговор о вашем проекте.',
+  },
+  {
+    en: 'You leave with a scope, a timeline and a number.',
+    ru: 'На выходе — объём работ, сроки и цифра.',
+  },
+  {
+    en: 'We reply within 24 hours, always a human.',
+    ru: 'Отвечаем в течение 24 часов, всегда живой человек.',
+  },
 ]

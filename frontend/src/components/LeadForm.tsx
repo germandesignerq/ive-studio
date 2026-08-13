@@ -1,9 +1,11 @@
 import { useRef, useState } from 'react'
 import { ApiError, submitLead } from '@/lib/api'
 import { isEmail, isMessage, isName } from '@/lib/validation'
+import { useLanguage } from '@/i18n/LanguageContext'
 import { Field } from './CallModal'
 import { Check } from './icons'
 
+/** Значения, которые уходят в бэкенд, всегда на английском — независимо от языка интерфейса. */
 const projectOptions = ['Landing page', 'Full website', 'SaaS / MVP', 'Not sure yet']
 const budgetOptions = ['Under $5,000', '$5,000 – $15,000', '$15,000 – $40,000', '$40,000+', "Let's discuss"]
 const timelineOptions = ['ASAP', 'In 1–2 months', 'This quarter', 'Just exploring']
@@ -20,6 +22,7 @@ const initial = {
 
 /** Большая форма заявки в финальном блоке главной. */
 export function LeadForm({ source }: { source: string }) {
+  const { t } = useLanguage()
   const [values, setValues] = useState(initial)
   const [errors, setErrors] = useState<{ name?: boolean; email?: boolean; message?: boolean }>({})
   const [sending, setSending] = useState(false)
@@ -63,7 +66,7 @@ export function LeadForm({ source }: { source: string }) {
       })
       setDone(true)
     } catch (err) {
-      setFailure(err instanceof ApiError ? err.message : 'Could not send the request.')
+      setFailure(err instanceof ApiError ? err.message : t.leadForm.couldNotSend)
     } finally {
       setSending(false)
     }
@@ -76,15 +79,21 @@ export function LeadForm({ source }: { source: string }) {
           <div className="mx-auto mb-6 grid h-[62px] w-[62px] place-items-center rounded-full bg-gold text-[#0B0B0C]">
             <Check size={26} strokeWidth={2.6} />
           </div>
-          <h3 className="text-[27px] font-semibold tracking-[-.03em]">Request sent.</h3>
+          <h3 className="text-[27px] font-semibold tracking-[-.03em]">{t.leadForm.doneTitle}</h3>
           <p className="mx-auto mt-[14px] max-w-[34ch] text-[16px] font-light text-fg-2">
-            We&apos;ll get back to you within 24 hours with a few times for the call.
+            {t.leadForm.doneText}
           </p>
         </div>
       ) : (
         <form onSubmit={onSubmit} noValidate>
           <div className="grid grid-cols-2 gap-4 max-[680px]:grid-cols-1 max-[680px]:gap-0">
-            <Field label="Name" htmlFor="fName" required error={errors.name} message="Please enter your name">
+            <Field
+              label={t.leadForm.name}
+              htmlFor="fName"
+              required
+              error={errors.name}
+              message={t.leadForm.nameError}
+            >
               <input
                 ref={nameRef}
                 id="fName"
@@ -96,11 +105,11 @@ export function LeadForm({ source }: { source: string }) {
               />
             </Field>
             <Field
-              label="Email"
+              label={t.leadForm.email}
               htmlFor="fEmail"
               required
               error={errors.email}
-              message="Please enter a valid email"
+              message={t.leadForm.emailError}
             >
               <input
                 ref={emailRef}
@@ -114,7 +123,7 @@ export function LeadForm({ source }: { source: string }) {
             </Field>
           </div>
 
-          <Field label="Company or website" htmlFor="fCompany">
+          <Field label={t.leadForm.company} htmlFor="fCompany">
             <input
               id="fCompany"
               name="company"
@@ -126,7 +135,7 @@ export function LeadForm({ source }: { source: string }) {
           </Field>
 
           <div className="field mb-[18px]">
-            <label className="mb-2 block text-[13.5px] text-fg-2">What do you need?</label>
+            <label className="mb-2 block text-[13.5px] text-fg-2">{t.leadForm.whatDoYouNeed}</label>
             <div className="chips flex flex-wrap gap-2">
               {projectOptions.map((opt, i) => (
                 <span key={opt} className="relative">
@@ -138,51 +147,55 @@ export function LeadForm({ source }: { source: string }) {
                     checked={values.project === opt}
                     onChange={() => set('project')(opt)}
                   />
-                  <label htmlFor={`project-${i}`}>{opt}</label>
+                  <label htmlFor={`project-${i}`}>{t.leadForm.projectOptions[i]}</label>
                 </span>
               ))}
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4 max-[680px]:grid-cols-1 max-[680px]:gap-0">
-            <Field label="Budget" htmlFor="fBudget">
+            <Field label={t.leadForm.budget} htmlFor="fBudget">
               <select
                 id="fBudget"
                 name="budget"
                 value={values.budget}
                 onChange={(e) => set('budget')(e.target.value)}
               >
-                {budgetOptions.map((o) => (
-                  <option key={o}>{o}</option>
+                {budgetOptions.map((o, i) => (
+                  <option key={o} value={o}>
+                    {t.leadForm.budgetOptions[i]}
+                  </option>
                 ))}
               </select>
             </Field>
-            <Field label="Start date" htmlFor="fWhen">
+            <Field label={t.leadForm.startDate} htmlFor="fWhen">
               <select
                 id="fWhen"
                 name="timeline"
                 value={values.timeline}
                 onChange={(e) => set('timeline')(e.target.value)}
               >
-                {timelineOptions.map((o) => (
-                  <option key={o}>{o}</option>
+                {timelineOptions.map((o, i) => (
+                  <option key={o} value={o}>
+                    {t.leadForm.timelineOptions[i]}
+                  </option>
                 ))}
               </select>
             </Field>
           </div>
 
           <Field
-            label="Tell us about the project"
+            label={t.leadForm.message}
             htmlFor="fMsg"
             required
             error={errors.message}
-            message="A sentence or two is enough"
+            message={t.leadForm.messageError}
           >
             <textarea
               ref={messageRef}
               id="fMsg"
               name="message"
-              placeholder="What are you building, and what should it do better?"
+              placeholder={t.leadForm.messagePlaceholder}
               value={values.message}
               onChange={(e) => set('message')(e.target.value)}
               className="min-h-[104px]"
@@ -196,12 +209,12 @@ export function LeadForm({ source }: { source: string }) {
           )}
 
           <button className="btn btn-primary mt-2 w-full" type="submit" disabled={sending}>
-            {sending ? 'Sending…' : 'Send request'}
+            {sending ? t.leadForm.sending : t.leadForm.send}
           </button>
           <p className="mt-4 text-center text-[13px] leading-[1.5] text-fg-3">
-            Free 30-minute call. We reply within 24 hours.
+            {t.leadForm.footnote1}
             <br />
-            No spam, no sales sequence.
+            {t.leadForm.footnote2}
           </p>
         </form>
       )}

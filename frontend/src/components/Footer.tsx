@@ -1,6 +1,7 @@
 import { Link } from 'react-router'
 import { useFollowGlow } from '@/hooks/useFollowGlow'
 import { useCallModal } from '@/context/CallModalContext'
+import { useLanguage } from '@/i18n/LanguageContext'
 import { Logo } from './Logo'
 import { Instagram, Linkedin, Telegram } from './icons'
 
@@ -15,6 +16,7 @@ const social = [
 export function Footer({ source }: { source: string }) {
   const ref = useFollowGlow<HTMLElement>(50, 58)
   const { openCall } = useCallModal()
+  const { t } = useLanguage()
 
   return (
     <footer
@@ -28,20 +30,20 @@ export function Footer({ source }: { source: string }) {
               <Logo className="h-[39px] w-[46px]" />
             </Link>
             <p className="mt-4 max-w-[28ch] text-[15px] leading-[1.5] text-fg-3">
-              UX/UI design and web development for startups and growing businesses.
+              {t.footer.description}
             </p>
           </div>
 
-          <FootCol title="Studio">
-            <FootLink to="/#work">Projects</FootLink>
-            <FootLink to="/#services">Services</FootLink>
-            <FootLink to="/#process">Process</FootLink>
-            <FootLink to="/about">About</FootLink>
-            <FootLink to="/blog">Blog</FootLink>
-            <FootLink to="/pricing">Pricing</FootLink>
+          <FootCol title={t.footer.studio}>
+            <FootLink to="/#work">{t.nav.projects}</FootLink>
+            <FootLink to="/#services">{t.nav.services}</FootLink>
+            <FootLink to="/#process">{t.nav.process}</FootLink>
+            <FootLink to="/about">{t.nav.about}</FootLink>
+            <FootLink to="/blog">{t.nav.blog}</FootLink>
+            <FootLink to="/pricing">{t.nav.pricing}</FootLink>
           </FootCol>
 
-          <FootCol title="Contact">
+          <FootCol title={t.footer.contact}>
             <li className="py-[7px]">
               <a
                 href="mailto:ivedesign93@gmail.com"
@@ -56,7 +58,7 @@ export function Footer({ source }: { source: string }) {
                 onClick={() => openCall({ source })}
                 className="cursor-pointer text-[15.5px] text-fg-2 transition-colors hover:text-gold"
               >
-                Start a project
+                {t.common.startProject}
               </button>
             </li>
             <li className="flex gap-3 pt-3 pb-[7px]">
@@ -75,29 +77,29 @@ export function Footer({ source }: { source: string }) {
             </li>
           </FootCol>
 
-          <FootCol title="Legal">
-            <FootLink to="/privacy">Privacy</FootLink>
+          <FootCol title={t.footer.legal}>
+            <FootLink to="/privacy">{t.footer.privacy}</FootLink>
             <li className="py-[7px]">
               <a href="#" className="text-[15.5px] text-fg-2 transition-colors hover:text-gold">
-                Terms
+                {t.footer.terms}
               </a>
             </li>
             <li className="py-[7px]">
               <a href="#" className="text-[15.5px] text-fg-2 transition-colors hover:text-gold">
-                Cookies
+                {t.footer.cookies}
               </a>
             </li>
             <li className="py-[7px]">
               <a href="#" className="text-[15.5px] text-fg-2 transition-colors hover:text-gold">
-                Careers
+                {t.footer.careers}
               </a>
             </li>
           </FootCol>
         </div>
 
         <div className="mt-[66px] flex flex-wrap justify-between gap-5 text-[14.5px] text-fg-3">
-          <span>© 2026 IVE. All rights reserved.</span>
-          <span>Design. Build. Launch.</span>
+          <span>{t.common.rights}</span>
+          <span>{t.common.tagline}</span>
         </div>
       </div>
     </footer>
@@ -106,10 +108,11 @@ export function Footer({ source }: { source: string }) {
 
 /** Короткий подвал в одну строку — кейс, статья, политика. */
 export function FooterSlim({ children }: { children?: React.ReactNode }) {
+  const { t } = useLanguage()
   return (
     <footer className="border-t border-line bg-bg-deep py-14">
       <div className="wrap flex flex-wrap justify-between gap-5 text-[14.5px] text-fg-3">
-        <span>© 2026 IVE. All rights reserved.</span>
+        <span>{t.common.rights}</span>
         <span className="[&_a:hover]:text-gold">{children}</span>
       </div>
     </footer>
