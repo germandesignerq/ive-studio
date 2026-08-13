@@ -29,7 +29,7 @@ export const workFilters: Array<{ key: WorkFilterKey; label: string }> = [
   { key: 'all', label: 'All' },
   { key: 'landing', label: 'Landing' },
   { key: 'crm', label: 'CRM' },
-  { key: 'app', label: 'APP' },
+  { key: 'app', label: 'Application Solutions' },
   { key: 'case', label: 'Case studies' },
 ]
 
@@ -130,5 +130,15 @@ export const works: Work[] = [
     result:
       'Site for a full-cycle interior design studio — a live cost calculator, a seven-step process breakdown and a filterable project portfolio.',
     img: '/work-happyroom.jpg',
+  },
+  {
+    slug: 'momentum',
+    name: 'Momentum',
+    tags: 'Fintech · Web app · Wallet',
+    url: 'https://momentum-wallet.com/',
+    category: 'crm',
+    result:
+      'Multi-chain crypto wallet workspace — sign-in and account creation flows built for a platform managing BTC, ETH, USDT and TON in one place.',
+    img: '/work-momentum.jpg',
   },
 ]
