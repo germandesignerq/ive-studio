@@ -202,4 +202,14 @@ export const works: Work[] = [
       'Booking site for a nine-room Positano hotel — room search and filters, dining pre-orders, a live map and multi-currency pricing in five languages.',
     img: '/work-casa-marena.jpg',
   },
+  {
+    slug: 'happyroom',
+    name: 'HAPPY ROOM',
+    tags: 'Interior design · Landing · Calculator',
+    url: 'https://happyroom-sigma.vercel.app/',
+    category: 'landing',
+    result:
+      'Site for a full-cycle interior design studio — a live cost calculator, a seven-step process breakdown and a filterable project portfolio.',
+    img: '/work-happyroom.jpg',
+  },
 ]
