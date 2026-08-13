@@ -1,7 +1,7 @@
 import type { CoverKey } from './covers'
 
-/** Тип услуги — по нему разложены проекты. */
-export type WorkCategory = 'ux' | 'web' | 'saas' | 'landing'
+/** Тип продукта — по нему разложены проекты. */
+export type WorkCategory = 'landing' | 'crm' | 'app'
 
 /** Ключи вкладок: категории плюс «есть разбор» — это отдельная ось. */
 export type WorkFilterKey = 'all' | WorkCategory | 'case'
@@ -27,10 +27,9 @@ export type Work = {
 
 export const workFilters: Array<{ key: WorkFilterKey; label: string }> = [
   { key: 'all', label: 'All' },
-  { key: 'ux', label: 'UX/UI' },
-  { key: 'web', label: 'Web' },
-  { key: 'saas', label: 'SaaS & MVP' },
   { key: 'landing', label: 'Landing' },
+  { key: 'crm', label: 'CRM' },
+  { key: 'app', label: 'APP' },
   { key: 'case', label: 'Case studies' },
 ]
 
@@ -40,7 +39,7 @@ export const works: Work[] = [
     name: 'AiMore',
     tags: 'Mobile app · UX/UI · Product design',
     caseStudy: true,
-    category: 'ux',
+    category: 'app',
     result: 'Dating app built from scratch: onboarding, feed and profiles across 40+ screens.',
     img: '/work-aimore.jpg',
   },
@@ -49,7 +48,7 @@ export const works: Work[] = [
     name: 'The Alice',
     tags: 'SaaS · Web · Dashboard',
     caseStudy: true,
-    category: 'saas',
+    category: 'crm',
     result: 'Marketing site and admin dashboard for a business tracking system.',
     img: '/work-alice.jpg',
   },
@@ -58,7 +57,7 @@ export const works: Work[] = [
     name: 'Nexora AI',
     tags: 'SaaS · Web · Dashboard',
     caseStudy: true,
-    category: 'saas',
+    category: 'crm',
     result: 'Dark-theme landing and control panel for an AI hotel management platform.',
     img: '/work-nexora.jpg',
   },
@@ -67,7 +66,7 @@ export const works: Work[] = [
     name: 'Hotel App',
     tags: 'Mobile app · Booking · Concierge',
     caseStudy: true,
-    category: 'ux',
+    category: 'app',
     result:
       'Booking and concierge app for luxury hotels: search, rooms, amenities, one-tap booking.',
     img: '/work-hotel.jpg',
@@ -77,7 +76,7 @@ export const works: Work[] = [
     name: 'Sales Dashboard',
     tags: 'Mobile app · Dashboard · Data viz',
     caseStudy: true,
-    category: 'ux',
+    category: 'crm',
     result:
       'Mobile dashboard for sales teams: weekly performance, revenue, orders and refunds at a glance.',
     img: '/work-sales.jpg',
