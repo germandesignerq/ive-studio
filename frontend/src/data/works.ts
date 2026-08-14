@@ -141,4 +141,14 @@ export const works: Work[] = [
       'Multi-chain crypto wallet workspace — sign-in and account creation flows built for a platform managing BTC, ETH, USDT and TON in one place.',
     img: '/work-momentum.jpg',
   },
+  {
+    slug: 'finora',
+    name: 'Finora',
+    tags: 'Fintech · Dashboard · Analytics',
+    url: 'https://finora-zeta-ivory.vercel.app/',
+    category: 'crm',
+    result:
+      'Financial overview dashboard — income, expenses, cash flow and revenue mix tracked across connected accounts, with a built-in EN/RU switch.',
+    img: '/work-finora.jpg',
+  },
 ]
