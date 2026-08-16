@@ -151,4 +151,14 @@ export const works: Work[] = [
       'Financial overview dashboard — income, expenses, cash flow and revenue mix tracked across connected accounts, with a built-in EN/RU switch.',
     img: '/work-finora.jpg',
   },
+  {
+    slug: 'cleargatecustoms',
+    name: 'ClearGateCustoms',
+    tags: 'Logistics · Landing · Calculator',
+    url: 'https://cleargatecustoms.com.ua/',
+    category: 'landing',
+    result:
+      'Site for a customs broker clearing cargo from China and Europe — a duty and VAT calculator, service breakdown and a UK/EN language switch.',
+    img: '/work-cleargate.jpg',
+  },
 ]
