@@ -19,25 +19,28 @@ const navLinks: NavLink[] = [
   { key: 'pricing', to: '/pricing' },
 ]
 
-/** Переключатель RU/EN в стекле — общий для десктопа и мобильного меню. */
+const langOptions = ['en', 'de', 'fr'] as const
+
+/** Переключатель EN/DE/FR в стекле — общий для десктопа и мобильного меню. */
 function LangSwitch({ className = '' }: { className?: string }) {
   const { lang, setLang } = useLanguage()
+  const index = langOptions.indexOf(lang)
   return (
     <div
       className={`relative inline-flex items-center rounded-full border border-white/[.08] bg-white/[.04] p-[3px] text-[13.5px] font-medium shadow-[inset_0_1px_0_rgba(255,255,255,.06),0_8px_20px_-10px_rgba(0,0,0,.6)] backdrop-blur-xl ${className}`}
     >
       <span
         aria-hidden
-        className="absolute top-[3px] bottom-[3px] left-[3px] w-[calc(50%-3px)] rounded-full border border-[rgba(233,201,127,.35)] bg-[rgba(233,201,127,.16)] shadow-[inset_0_1px_0_rgba(255,255,255,.25)] backdrop-blur-md transition-transform duration-300 ease-[var(--ease)]"
-        style={{ transform: lang === 'ru' ? 'translateX(100%)' : 'translateX(0)' }}
+        className="absolute top-[3px] bottom-[3px] left-[3px] w-[calc(33.333%-2px)] rounded-full border border-[rgba(233,201,127,.35)] bg-[rgba(233,201,127,.16)] shadow-[inset_0_1px_0_rgba(255,255,255,.25)] backdrop-blur-md transition-transform duration-300 ease-[var(--ease)]"
+        style={{ transform: `translateX(${index * 100}%)` }}
       />
-      {(['en', 'ru'] as const).map((l) => (
+      {langOptions.map((l) => (
         <button
           key={l}
           type="button"
           onClick={() => setLang(l)}
           aria-pressed={lang === l}
-          className={`relative z-[1] cursor-pointer px-[13px] py-[6px] uppercase transition-colors duration-300 ${
+          className={`relative z-[1] cursor-pointer px-[11px] py-[6px] uppercase transition-colors duration-300 ${
             lang === l ? 'text-gold-soft' : 'text-fg-3 hover:text-fg-2'
           }`}
         >

@@ -344,10 +344,15 @@ const stroke = {
 
 const problems = [
   {
-    title: { en: 'Poor UX kills conversions', ru: 'Плохой UX убивает конверсии' },
+    title: {
+      en: 'Poor UX kills conversions',
+      de: 'Schlechte UX killt Conversions',
+      fr: 'Une mauvaise UX tue les conversions',
+    },
     text: {
       en: 'Traffic arrives. Nobody signs up. The funnel leaks where nobody’s looking.',
-      ru: 'Трафик приходит. Никто не регистрируется. Воронка течёт там, куда никто не смотрит.',
+      de: 'Traffic kommt, niemand registriert sich. Der Trichter leckt genau dort, wo niemand hinschaut.',
+      fr: 'Le trafic arrive. Personne ne s’inscrit. L’entonnoir fuit là où personne ne regarde.',
     },
     icon: (
       <svg width="19" height="19" viewBox="0 0 24 24" {...stroke}>
@@ -361,10 +366,15 @@ const problems = [
     ),
   },
   {
-    title: { en: 'Delivery drags for months', ru: 'Разработка тянется месяцами' },
+    title: {
+      en: 'Delivery drags for months',
+      de: 'Die Lieferung zieht sich über Monate',
+      fr: 'La livraison traîne pendant des mois',
+    },
     text: {
       en: 'Your launch window closes while the site is still in review.',
-      ru: 'Окно для запуска закрывается, пока сайт всё ещё на согласовании.',
+      de: 'Ihr Launch-Fenster schließt sich, während die Website noch in der Abstimmung ist.',
+      fr: 'Votre fenêtre de lancement se referme pendant que le site est encore en relecture.',
     },
     icon: (
       <svg width="19" height="19" viewBox="0 0 24 24" {...stroke}>
@@ -375,10 +385,15 @@ const problems = [
     ),
   },
   {
-    title: { en: "Design and dev don't talk", ru: 'Дизайн и разработка не общаются' },
+    title: {
+      en: "Design and dev don't talk",
+      de: 'Design und Entwicklung reden nicht miteinander',
+      fr: 'Le design et le développement ne se parlent pas',
+    },
     text: {
       en: 'Two vendors, one blame game. The build never matches the mockup.',
-      ru: 'Два подрядчика — и вечный поиск виноватого. Сайт никогда не совпадает с макетом.',
+      de: 'Zwei Anbieter, ein Schwarzer-Peter-Spiel. Das Ergebnis entspricht nie dem Mockup.',
+      fr: 'Deux prestataires, un jeu de blâme. Le résultat ne correspond jamais à la maquette.',
     },
     icon: (
       <svg width="19" height="19" viewBox="0 0 24 24" {...stroke}>
@@ -392,16 +407,17 @@ const problems = [
 
 const services = [
   {
-    title: { en: 'UX/UI Design', ru: 'UX/UI-дизайн' },
+    title: { en: 'UX/UI Design', de: 'UX/UI-Design', fr: 'Design UX/UI' },
     text: {
       en: 'Interfaces built around one path: the one that ends in a signup.',
-      ru: 'Интерфейсы вокруг одного пути — того, что заканчивается регистрацией.',
+      de: 'Interfaces, die auf einen einzigen Weg ausgerichtet sind: den, der zur Anmeldung führt.',
+      fr: 'Des interfaces construites autour d’un seul parcours : celui qui se termine par une inscription.',
     },
     items: [
-      { en: 'Research', ru: 'Research' },
-      { en: 'Flows', ru: 'Flows' },
-      { en: 'UI', ru: 'UI' },
-      { en: 'Design system', ru: 'Design system' },
+      { en: 'Research', de: 'Research', fr: 'Recherche' },
+      { en: 'Flows', de: 'Flows', fr: 'Parcours' },
+      { en: 'UI', de: 'UI', fr: 'UI' },
+      { en: 'Design system', de: 'Design system', fr: 'Système de design' },
     ],
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" {...stroke} strokeWidth={1.6}>
@@ -413,16 +429,17 @@ const services = [
     ),
   },
   {
-    title: { en: 'Web Development', ru: 'Веб-разработка' },
+    title: { en: 'Web Development', de: 'Webentwicklung', fr: 'Développement web' },
     text: {
       en: 'Fast, accessible, SEO-ready builds. Pixel-perfect, no excuses.',
-      ru: 'Быстрые, доступные, готовые к SEO сайты. Пиксель в пиксель — без оговорок.',
+      de: 'Schnelle, barrierefreie und SEO-optimierte Umsetzung. Pixelgenau, ohne Ausreden.',
+      fr: 'Des réalisations rapides, accessibles et prêtes pour le SEO. Au pixel près, sans excuses.',
     },
     items: [
-      { en: 'React', ru: 'React' },
-      { en: 'Vite', ru: 'Vite' },
-      { en: 'CMS', ru: 'CMS' },
-      { en: 'Analytics', ru: 'Аналитика' },
+      { en: 'React', de: 'React', fr: 'React' },
+      { en: 'Vite', de: 'Vite', fr: 'Vite' },
+      { en: 'CMS', de: 'CMS', fr: 'CMS' },
+      { en: 'Analytics', de: 'Analyse', fr: 'Analytique' },
     ],
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" {...stroke} strokeWidth={1.6}>
@@ -433,16 +450,17 @@ const services = [
     ),
   },
   {
-    title: { en: 'SaaS & MVP', ru: 'SaaS и MVP' },
+    title: { en: 'SaaS & MVP', de: 'SaaS & MVP', fr: 'SaaS & MVP' },
     text: {
       en: 'From idea to a product real users can pay for — in weeks, not quarters.',
-      ru: 'От идеи до продукта, за который платят реальные пользователи — за недели, не кварталы.',
+      de: 'Von der Idee zu einem Produkt, für das echte Nutzer bezahlen — in Wochen, nicht Quartalen.',
+      fr: 'De l’idée à un produit que de vrais utilisateurs paient — en semaines, pas en trimestres.',
     },
     items: [
-      { en: 'Onboarding', ru: 'Онбординг' },
-      { en: 'Dashboards', ru: 'Дашборды' },
-      { en: 'Design system', ru: 'Design system' },
-      { en: 'Handoff', ru: 'Handoff' },
+      { en: 'Onboarding', de: 'Onboarding', fr: 'Onboarding' },
+      { en: 'Dashboards', de: 'Dashboards', fr: 'Tableaux de bord' },
+      { en: 'Design system', de: 'Design system', fr: 'Système de design' },
+      { en: 'Handoff', de: 'Übergabe', fr: 'Transmission' },
     ],
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" {...stroke} strokeWidth={1.6}>
@@ -453,16 +471,17 @@ const services = [
     ),
   },
   {
-    title: { en: 'Landing Pages', ru: 'Лендинги' },
+    title: { en: 'Landing Pages', de: 'Landingpages', fr: 'Landing pages' },
     text: {
       en: 'One page, one job. Built to be tested, not admired.',
-      ru: 'Одна страница — одна задача. Сделана, чтобы её тестировали, а не любовались ей.',
+      de: 'Eine Seite, eine Aufgabe. Gebaut, um getestet zu werden — nicht um bewundert zu werden.',
+      fr: 'Une page, un objectif. Conçue pour être testée, pas admirée.',
     },
     items: [
-      { en: 'Copy structure', ru: 'Структура текста' },
-      { en: 'A/B ready', ru: 'Готово к A/B' },
-      { en: 'Speed', ru: 'Скорость' },
-      { en: 'Tracking', ru: 'Трекинг' },
+      { en: 'Copy structure', de: 'Textstruktur', fr: 'Structure de contenu' },
+      { en: 'A/B ready', de: 'A/B-bereit', fr: 'Prêt pour l’A/B' },
+      { en: 'Speed', de: 'Geschwindigkeit', fr: 'Vitesse' },
+      { en: 'Tracking', de: 'Tracking', fr: 'Suivi' },
     ],
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" {...stroke} strokeWidth={1.6}>
@@ -478,48 +497,53 @@ const services = [
 const steps = [
   {
     no: '01',
-    title: { en: 'Discovery & Strategy', ru: 'Discovery и стратегия' },
+    title: { en: 'Discovery & Strategy', de: 'Discovery & Strategie', fr: 'Découverte et stratégie' },
     text: {
       en: 'Your goals, your numbers, your users. One clear target before anyone opens Figma.',
-      ru: 'Ваши цели, ваши цифры, ваши пользователи. Одна ясная цель до того, как кто-то откроет Figma.',
+      de: 'Ihre Ziele, Ihre Zahlen, Ihre Nutzer. Ein klares Ziel, bevor jemand Figma öffnet.',
+      fr: 'Vos objectifs, vos chiffres, vos utilisateurs. Un objectif clair avant même d’ouvrir Figma.',
     },
-    when: { en: 'Week 1', ru: 'Неделя 1' },
+    when: { en: 'Week 1', de: 'Woche 1', fr: 'Semaine 1' },
   },
   {
     no: '02',
-    title: { en: 'UX & Design', ru: 'UX и дизайн' },
+    title: { en: 'UX & Design', de: 'UX & Design', fr: 'UX & Design' },
     text: {
       en: 'Flows first, pixels second. You see real screens, not moodboards.',
-      ru: 'Сначала сценарии, потом пиксели. Вы видите реальные экраны, а не мудборды.',
+      de: 'Erst die Abläufe, dann die Pixel. Sie sehen echte Screens, keine Moodboards.',
+      fr: 'D’abord les parcours, ensuite les pixels. Vous voyez de vrais écrans, pas des moodboards.',
     },
-    when: { en: 'Weeks 2–4', ru: 'Недели 2–4' },
+    when: { en: 'Weeks 2–4', de: 'Wochen 2–4', fr: 'Semaines 2–4' },
   },
   {
     no: '03',
-    title: { en: 'Development', ru: 'Разработка' },
+    title: { en: 'Development', de: 'Entwicklung', fr: 'Développement' },
     text: {
       en: 'Same team, same standards. Weekly demos on a live link.',
-      ru: 'Та же команда, те же стандарты. Еженедельные демо на живой ссылке.',
+      de: 'Gleiches Team, gleiche Standards. Wöchentliche Demos auf einem Live-Link.',
+      fr: 'Même équipe, mêmes standards. Démos hebdomadaires sur un lien live.',
     },
-    when: { en: 'Weeks 4–8', ru: 'Недели 4–8' },
+    when: { en: 'Weeks 4–8', de: 'Wochen 4–8', fr: 'Semaines 4–8' },
   },
   {
     no: '04',
-    title: { en: 'Launch', ru: 'Запуск' },
+    title: { en: 'Launch', de: 'Launch', fr: 'Lancement' },
     text: {
       en: 'Ship, measure, fix. We stay a month after go-live.',
-      ru: 'Запускаем, замеряем, правим. Остаёмся на связи ещё месяц после запуска.',
+      de: 'Live schalten, messen, optimieren. Wir bleiben noch einen Monat nach dem Launch an Bord.',
+      fr: 'On lance, on mesure, on corrige. Nous restons un mois après la mise en ligne.',
     },
-    when: { en: 'Week 9', ru: 'Неделя 9' },
+    when: { en: 'Week 9', de: 'Woche 9', fr: 'Semaine 9' },
   },
 ]
 
 const results = [
   {
-    title: { en: 'Better UX', ru: 'Лучший UX' },
+    title: { en: 'Better UX', de: 'Bessere UX', fr: 'Meilleure UX' },
     text: {
       en: 'Fewer steps, clearer copy, no dead ends. Users get where they were going.',
-      ru: 'Меньше шагов, понятнее текст, никаких тупиков. Пользователи доходят туда, куда шли.',
+      de: 'Weniger Schritte, klarere Texte, keine Sackgassen. Nutzer kommen dort an, wo sie hinwollten.',
+      fr: 'Moins d’étapes, des textes plus clairs, aucune impasse. Les utilisateurs arrivent là où ils voulaient aller.',
     },
     icon: (
       <svg width="21" height="21" viewBox="0 0 24 24" {...stroke} strokeWidth={1.7}>
@@ -528,10 +552,11 @@ const results = [
     ),
   },
   {
-    title: { en: 'Higher conversions', ru: 'Выше конверсии' },
+    title: { en: 'Higher conversions', de: 'Höhere Conversions', fr: 'Conversions plus élevées' },
     text: {
       en: 'Every screen has one job. We measure it, then we improve it.',
-      ru: 'У каждого экрана одна задача. Мы её измеряем, потом улучшаем.',
+      de: 'Jeder Screen hat eine Aufgabe. Wir messen sie und verbessern sie dann.',
+      fr: 'Chaque écran a un seul objectif. Nous le mesurons, puis nous l’améliorons.',
     },
     icon: (
       <svg width="21" height="21" viewBox="0 0 24 24" {...stroke} strokeWidth={1.7}>
@@ -541,10 +566,11 @@ const results = [
     ),
   },
   {
-    title: { en: 'Faster launch', ru: 'Быстрее запуск' },
+    title: { en: 'Faster launch', de: 'Schnellerer Launch', fr: 'Lancement plus rapide' },
     text: {
       en: 'Weeks to live, not quarters. You start learning from real users sooner.',
-      ru: 'Недели до запуска, а не кварталы. Вы раньше начинаете учиться на реальных пользователях.',
+      de: 'Wochen bis live, nicht Quartale. Sie lernen früher von echten Nutzern.',
+      fr: 'Des semaines jusqu’à la mise en ligne, pas des trimestres. Vous apprenez plus tôt de vrais utilisateurs.',
     },
     icon: (
       <svg width="21" height="21" viewBox="0 0 24 24" {...stroke} strokeWidth={1.7}>
@@ -557,34 +583,46 @@ const results = [
 const why = [
   {
     k: '01',
-    title: { en: 'Small team, direct communication', ru: 'Маленькая команда, прямое общение' },
+    title: {
+      en: 'Small team, direct communication',
+      de: 'Kleines Team, direkte Kommunikation',
+      fr: 'Petite équipe, communication directe',
+    },
     text: {
       en: 'You talk to the people building it. No account managers in between.',
-      ru: 'Вы общаетесь с теми, кто это строит. Никаких менеджеров-посредников.',
+      de: 'Sie sprechen mit den Menschen, die es bauen. Keine Account-Manager dazwischen.',
+      fr: 'Vous parlez directement à ceux qui le construisent. Pas de chargés de compte entre vous et nous.',
     },
   },
   {
     k: '02',
-    title: { en: 'Design and development in one place', ru: 'Дизайн и разработка в одном месте' },
+    title: {
+      en: 'Design and development in one place',
+      de: 'Design und Entwicklung an einem Ort',
+      fr: 'Design et développement au même endroit',
+    },
     text: {
       en: 'One team, one timeline, one invoice. Nothing gets lost in handoff.',
-      ru: 'Одна команда, один график, один счёт. Ничего не теряется при передаче.',
+      de: 'Ein Team, ein Zeitplan, eine Rechnung. Bei der Übergabe geht nichts verloren.',
+      fr: 'Une équipe, un planning, une facture. Rien ne se perd lors de la transmission.',
     },
   },
   {
     k: '03',
-    title: { en: 'Fast delivery', ru: 'Быстрая сдача' },
+    title: { en: 'Fast delivery', de: 'Schnelle Lieferung', fr: 'Livraison rapide' },
     text: {
       en: 'Fixed scope, weekly demos, dates we actually hit.',
-      ru: 'Фиксированный объём, еженедельные демо, сроки, которые мы реально соблюдаем.',
+      de: 'Fester Umfang, wöchentliche Demos, Termine, die wir wirklich einhalten.',
+      fr: 'Périmètre fixe, démos hebdomadaires, des délais que nous respectons vraiment.',
     },
   },
   {
     k: '04',
-    title: { en: 'SaaS experience', ru: 'Опыт в SaaS' },
+    title: { en: 'SaaS experience', de: 'SaaS-Erfahrung', fr: 'Expérience SaaS' },
     text: {
       en: "Onboarding, pricing pages, dashboards. We've shipped them before.",
-      ru: 'Онбординг, страницы с тарифами, дашборды. Мы уже это делали.',
+      de: 'Onboarding, Preisseiten, Dashboards. Das haben wir schon gebaut.',
+      fr: 'Onboarding, pages de tarifs, tableaux de bord. Nous l’avons déjà fait.',
     },
   },
 ]
@@ -592,14 +630,17 @@ const why = [
 const assurances = [
   {
     en: '30 minutes, no pitch deck — we talk about your project.',
-    ru: '30 минут, без презентаций — просто разговор о вашем проекте.',
+    de: '30 Minuten, keine Präsentation — wir sprechen über Ihr Projekt.',
+    fr: '30 minutes, sans présentation commerciale — on parle de votre projet.',
   },
   {
     en: 'You leave with a scope, a timeline and a number.',
-    ru: 'На выходе — объём работ, сроки и цифра.',
+    de: 'Sie gehen mit einem Leistungsumfang, einem Zeitplan und einer Zahl.',
+    fr: 'Vous repartez avec un périmètre, un planning et un chiffre.',
   },
   {
     en: 'We reply within 24 hours, always a human.',
-    ru: 'Отвечаем в течение 24 часов, всегда живой человек.',
+    de: 'Wir antworten innerhalb von 24 Stunden, immer ein Mensch.',
+    fr: 'Nous répondons sous 24 heures, toujours par un humain.',
   },
 ]
