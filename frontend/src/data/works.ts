@@ -105,7 +105,7 @@ export const works: Work[] = [
     slug: 'mstpd',
     name: 'Viacheslav MSTPD',
     tags: 'Landing · Personal portfolio · Audio',
-    url: 'https://mstpd-portfolio.vercel.app/',
+    url: 'https://mstpd.com/',
     category: 'landing',
     result:
       'Personal portfolio for a mixing and mastering engineer — audio players, a filterable credits list and booking built into one page.',
