@@ -174,6 +174,16 @@ export const works: Work[] = [
       'Site for a customs broker clearing cargo from China and Europe — a duty and VAT calculator, service breakdown and a UK/EN language switch.',
     img: '/work-cleargate.jpg',
   },
+  {
+    slug: 'balance',
+    name: 'Balance',
+    tags: 'Health · Landing · AI',
+    url: 'https://balance-calorie-tracker.vercel.app',
+    category: 'landing',
+    result:
+      'Site for an AI calorie and activity tracker — meals recognised from a photo, a daily kcal ring and a weekly weight trend, no manual food diary.',
+    img: '/work-balance.jpg',
+  },
 ]
 
 /** То, что реально показываем в сетке: пока кейсы скрыты, их карточек нет. */
