@@ -1,4 +1,5 @@
-import { Link, useParams } from 'react-router'
+import { useParams } from 'react-router'
+import { Link } from '@/i18n/Link'
 import { Nav } from '@/components/Nav'
 import { FooterSlim } from '@/components/Footer'
 import { Reveal } from '@/components/Reveal'
@@ -6,18 +7,17 @@ import { Counter } from '@/components/Counter'
 import { CtaSection } from '@/components/CtaSection'
 import { ArrowRight } from '@/components/icons'
 import { works } from '@/data/works'
-import { usePageMeta } from '@/hooks/usePageMeta'
+import { useLanguage } from '@/i18n/LanguageContext'
 
 export function CaseStudy() {
   const { slug } = useParams()
   const work = works.find((w) => w.slug === slug) ?? works[5]
   const next = works[(works.indexOf(work) + 1) % works.length]
-
-  usePageMeta(`${work.name} — case study | IVE`, work.result)
+  const { t } = useLanguage()
 
   return (
     <>
-      <Nav source={`case: ${work.slug}`} back={{ label: 'All work', to: '/#work' }} />
+      <Nav source={`case: ${work.slug}`} back={{ label: t.caseStudy.allWork, to: '/#work' }} />
 
       {/* ── 1. НАЗВАНИЕ ── */}
       <header className="pt-[150px] max-[680px]:pt-[120px]">
@@ -49,7 +49,10 @@ export function CaseStudy() {
           <img
             className="block h-auto w-full rounded-lg-x border border-line"
             src={work.img}
-            alt={`${work.name} — cover`}
+            alt={`${work.name} — ${work.tags}`}
+            width={1600}
+            height={1000}
+            fetchPriority="high"
           />
         ) : (
           <div className="ph aspect-video">
@@ -177,7 +180,7 @@ export function CaseStudy() {
             className="card-link next-link group flex items-center justify-between gap-[30px] py-11 transition-[padding-left] duration-[420ms] ease-[var(--ease)]"
           >
             <div>
-              <span className="eyebrow mb-4 block">Next project</span>
+              <span className="eyebrow mb-4 block">{t.caseStudy.nextProject}</span>
               <h3 className="text-[clamp(34px,5vw,58px)] tracking-[-.045em]">{next.name}</h3>
             </div>
             <span className="arrow h-14 w-14">
@@ -188,16 +191,16 @@ export function CaseStudy() {
       </div>
 
       <CtaSection
-        title="Have a signup that leaks?"
-        sub="Send us the link. In thirty free minutes we'll tell you where to look first."
-        button="Get a free review"
+        title={t.caseStudy.ctaTitle}
+        sub={t.caseStudy.ctaSub}
+        button={t.caseStudy.ctaButton}
         source={`case: ${work.slug}`}
         silk
       />
 
       <FooterSlim>
-        <Link to="/about">About</Link> · <Link to="/blog">Blog</Link> ·{' '}
-        <Link to="/privacy">Privacy</Link> · <Link to="/">Home</Link>
+        <Link to="/about">{t.nav.about}</Link> · <Link to="/blog">{t.nav.blog}</Link> ·{' '}
+        <Link to="/privacy">{t.footer.privacy}</Link> · <Link to="/">{t.nav.home}</Link>
       </FooterSlim>
     </>
   )

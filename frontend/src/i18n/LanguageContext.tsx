@@ -1,12 +1,14 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
+import { createContext, useContext, useEffect, useMemo, type ReactNode } from 'react'
+import { useLocation, useNavigate } from 'react-router'
+import { DEFAULT_LOCALE, HTML_LANG, LOCALES, localePath, splitLocale, type Locale } from '@/lib/site'
 import { dict } from './dictionary'
 
-export type Language = 'en' | 'de' | 'fr'
-
-const languages: Language[] = ['en', 'de', 'fr']
+export type Language = Locale
 
 type LanguageContextValue = {
   lang: Language
+  /** путь текущей страницы без языкового префикса — из него строятся ссылки */
+  path: string
   setLang: (l: Language) => void
   toggle: () => void
   t: typeof dict.de
@@ -16,35 +18,37 @@ const LanguageContext = createContext<LanguageContextValue | null>(null)
 
 const STORAGE_KEY = 'ive-lang'
 
-function isLanguage(v: string | null): v is Language {
-  return v === 'en' || v === 'de' || v === 'fr'
-}
-
-function detectInitialLang(): Language {
-  const stored = localStorage.getItem(STORAGE_KEY)
-  if (isLanguage(stored)) return stored
-  const browser = navigator.language.toLowerCase()
-  if (browser.startsWith('de')) return 'de'
-  if (browser.startsWith('fr')) return 'fr'
-  return 'en'
-}
-
+/**
+ * Язык живёт в адресе, а не в localStorage: у немецкой и французской версии
+ * теперь свои URL, и поисковик может их проиндексировать.
+ * localStorage остался только как память о выборе для первого захода на «/».
+ */
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Language>(detectInitialLang)
+  const { pathname } = useLocation()
+  const navigate = useNavigate()
+  const { locale, path } = splitLocale(pathname)
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, lang)
-    document.documentElement.lang = lang
-  }, [lang])
+    document.documentElement.lang = HTML_LANG[locale]
+    try {
+      localStorage.setItem(STORAGE_KEY, locale)
+    } catch {
+      /* приватный режим — просто не запоминаем */
+    }
+  }, [locale])
 
-  const setLang = (l: Language) => setLangState(l)
-  const toggle = () => setLangState((l) => languages[(languages.indexOf(l) + 1) % languages.length])
+  const value = useMemo<LanguageContextValue>(() => {
+    const setLang = (l: Language) => navigate(localePath(path, l))
+    return {
+      lang: locale,
+      path,
+      setLang,
+      toggle: () => setLang(LOCALES[(LOCALES.indexOf(locale) + 1) % LOCALES.length]),
+      t: dict[locale],
+    }
+  }, [locale, path, navigate])
 
-  return (
-    <LanguageContext.Provider value={{ lang, setLang, toggle, t: dict[lang] }}>
-      {children}
-    </LanguageContext.Provider>
-  )
+  return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>
 }
 
 export function useLanguage() {
@@ -53,9 +57,20 @@ export function useLanguage() {
   return ctx
 }
 
-/** Достаёт нужный язык из билингвального поля данных: { en, de, fr }. */
+/** Достаёт нужный язык из локализованного поля данных: { en, de, fr }. */
 export type Localized = { en: string; de: string; fr: string }
 export function useLocalized() {
   const { lang } = useLanguage()
   return (v: Localized) => v[lang]
+}
+
+/** Язык, выбранный в прошлый раз — используется только для редиректа с «/». */
+export function rememberedLocale(): Locale {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY)
+    if (stored && (LOCALES as readonly string[]).includes(stored)) return stored as Locale
+  } catch {
+    /* нет доступа к хранилищу */
+  }
+  return DEFAULT_LOCALE
 }

@@ -1,21 +1,22 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, useParams } from 'react-router'
+import { useParams } from 'react-router'
+import { Link } from '@/i18n/Link'
 import { Nav } from '@/components/Nav'
 import { FooterSlim } from '@/components/Footer'
 import { Reveal } from '@/components/Reveal'
 import { PostBody } from '@/components/PostBody'
 import { PostFunnel } from '@/components/PostFunnel'
+import { ShareRow } from '@/components/ShareRow'
 import { ArrowRight } from '@/components/icons'
 import { PostVisual } from '@/data/post-covers'
 import { allPosts, featuredPost } from '@/data/posts'
-import { usePageMeta } from '@/hooks/usePageMeta'
+import { useLanguage } from '@/i18n/LanguageContext'
 
 export function Post() {
   const { slug } = useParams()
   const post = allPosts.find((p) => p.slug === slug) ?? featuredPost
   const next = allPosts[(allPosts.indexOf(post) + 1) % allPosts.length]
-
-  usePageMeta(`${post.title} — IVE studio`, post.excerpt)
+  const { t } = useLanguage()
 
   const articleRef = useRef<HTMLElement>(null)
   const progress = useReadingProgress(articleRef)
@@ -27,7 +28,7 @@ export function Post() {
         style={{ width: `${progress}%` }}
       />
 
-      <Nav source={`post: ${post.slug}`} back={{ label: 'All posts', to: '/blog' }} />
+      <Nav source={`post: ${post.slug}`} back={{ label: t.blog.allPosts, to: '/blog' }} />
 
       {/* ── HEAD ── */}
       <header className="pt-[140px] max-[680px]:pt-[118px]">
@@ -37,7 +38,7 @@ export function Post() {
               {post.categoryLabel}
             </span>
             <span className="font-label text-[16px] text-fg-2">
-              {post.date} · {post.read} read
+              {post.date} · {post.read} {t.blog.read}
             </span>
           </div>
 
@@ -78,18 +79,7 @@ export function Post() {
       <article ref={articleRef} className="doc prose pt-[70px] max-[680px]:pt-[50px]">
         <PostBody blocks={post.body} />
 
-        <div className="mt-16 flex flex-wrap items-center gap-4 border-t border-line pt-[30px]">
-          <span className="eyebrow">Share</span>
-          {['Twitter', 'LinkedIn', 'Copy link'].map((s) => (
-            <a
-              key={s}
-              href="#"
-              className="rounded-full border border-line px-[18px] py-2 text-[14.5px] text-fg-2 transition-colors duration-[250ms] ease-[var(--ease)] hover:border-[rgba(233,201,127,.45)] hover:bg-[rgba(233,201,127,.05)] hover:text-gold"
-            >
-              {s}
-            </a>
-          ))}
-        </div>
+        <ShareRow path={`/blog/${post.slug}`} title={post.title} />
       </article>
 
       <PostFunnel source={`post funnel: ${post.slug}`} />
@@ -102,7 +92,7 @@ export function Post() {
             className="card-link next-link group flex items-center justify-between gap-[30px] py-11 transition-[padding-left] duration-[420ms] ease-[var(--ease)]"
           >
             <div>
-              <span className="eyebrow mb-[14px] block">Next post</span>
+              <span className="eyebrow mb-[14px] block">{t.blog.nextPost}</span>
               <h3 className="max-w-[20ch] text-[clamp(26px,3.4vw,40px)] tracking-[-.04em]">
                 {next.title}
               </h3>
@@ -115,7 +105,7 @@ export function Post() {
       </div>
 
       <FooterSlim>
-        <Link to="/blog">All posts</Link> · <Link to="/">Home</Link>
+        <Link to="/blog">{t.blog.allPosts}</Link> · <Link to="/">{t.nav.home}</Link>
       </FooterSlim>
     </>
   )

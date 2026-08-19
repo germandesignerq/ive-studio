@@ -1,16 +1,20 @@
-import { Link } from 'react-router'
+import { Link } from '@/i18n/Link'
 import { useFollowGlow } from '@/hooks/useFollowGlow'
 import { useCallModal } from '@/context/CallModalContext'
 import { useLanguage } from '@/i18n/LanguageContext'
 import { Logo } from './Logo'
 import { Instagram, Linkedin, Telegram } from './icons'
 
-/** Соцсети подвала. Ссылки — заглушки: подставьте реальные адреса профилей. */
+/**
+ * Соцсети подвала. Пустой href — иконка не рисуется: мёртвая ссылка хуже
+ * её отсутствия и для посетителя, и для поискового робота.
+ * Впишите реальные адреса профилей — иконки появятся сами.
+ */
 const social = [
-  { label: 'Telegram', href: '#', Icon: Telegram },
-  { label: 'Instagram', href: '#', Icon: Instagram },
-  { label: 'LinkedIn', href: '#', Icon: Linkedin },
-]
+  { label: 'Telegram', href: '', Icon: Telegram },
+  { label: 'Instagram', href: '', Icon: Instagram },
+  { label: 'LinkedIn', href: '', Icon: Linkedin },
+].filter((s) => s.href)
 
 /** Полный подвал с четырьмя колонками — index, about, blog. */
 export function Footer({ source }: { source: string }) {
@@ -61,39 +65,28 @@ export function Footer({ source }: { source: string }) {
                 {t.common.startProject}
               </button>
             </li>
-            <li className="flex gap-3 pt-3 pb-[7px]">
-              {social.map(({ label, href, Icon }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target={href !== '#' ? '_blank' : undefined}
-                  rel={href !== '#' ? 'noopener noreferrer' : undefined}
-                  aria-label={label}
-                  className="grid h-9 w-9 place-items-center rounded-full border border-line text-fg-2 transition-colors hover:border-gold hover:text-gold"
-                >
-                  <Icon size={17} />
-                </a>
-              ))}
-            </li>
+            {social.length > 0 && (
+              <li className="flex gap-3 pt-3 pb-[7px]">
+                {social.map(({ label, href, Icon }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    className="grid h-9 w-9 place-items-center rounded-full border border-line text-fg-2 transition-colors hover:border-gold hover:text-gold"
+                  >
+                    <Icon size={17} />
+                  </a>
+                ))}
+              </li>
+            )}
           </FootCol>
 
+          {/* Terms, Cookies и Careers вели на «#» — таких страниц нет.
+              Появятся страницы — вернуть сюда обычными FootLink. */}
           <FootCol title={t.footer.legal}>
             <FootLink to="/privacy">{t.footer.privacy}</FootLink>
-            <li className="py-[7px]">
-              <a href="#" className="text-[15.5px] text-fg-2 transition-colors hover:text-gold">
-                {t.footer.terms}
-              </a>
-            </li>
-            <li className="py-[7px]">
-              <a href="#" className="text-[15.5px] text-fg-2 transition-colors hover:text-gold">
-                {t.footer.cookies}
-              </a>
-            </li>
-            <li className="py-[7px]">
-              <a href="#" className="text-[15.5px] text-fg-2 transition-colors hover:text-gold">
-                {t.footer.careers}
-              </a>
-            </li>
           </FootCol>
         </div>
 

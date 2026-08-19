@@ -4,16 +4,31 @@ import { Reveal } from '@/components/Reveal'
 import { Counter } from '@/components/Counter'
 import { CtaSection } from '@/components/CtaSection'
 import { useFollowGlow } from '@/hooks/useFollowGlow'
-import { usePageMeta } from '@/hooks/usePageMeta'
+import { useLanguage } from '@/i18n/LanguageContext'
 
 const SOURCE = 'about page'
 
 export function About() {
-  usePageMeta(
-    'About — IVE studio',
-    'Design and development under one roof: who we are, how we work and who will build your project.',
-  )
   const heroRef = useFollowGlow<HTMLElement>(50, 44)
+  const { t } = useLanguage()
+
+  const numbers = [
+    { value: '9', label: t.about.numberYears },
+    { value: '140+', label: t.about.numberProjects },
+    { value: '11', label: t.about.numberPeople },
+    { value: '7', label: t.about.numberCountries },
+  ]
+
+  const values = [
+    { title: t.about.value1Title, text: t.about.value1Text, icon: icons[0] },
+    { title: t.about.value2Title, text: t.about.value2Text, icon: icons[1] },
+    { title: t.about.value3Title, text: t.about.value3Text, icon: icons[2] },
+  ]
+
+  const team = [
+    { ...people[0], role: t.about.roleDesigner, text: t.about.bioHerman },
+    { ...people[1], role: t.about.roleDeveloper, text: t.about.bioAlexander },
+  ]
 
   return (
     <>
@@ -24,15 +39,15 @@ export function About() {
         className="glow relative overflow-hidden pt-[170px] pb-[90px] max-[680px]:pt-[130px] max-[680px]:pb-[70px]"
       >
         <div className="wrap relative z-[2]">
-          <span className="eyebrow mb-[22px] block">About</span>
+          <span className="eyebrow mb-[22px] block">{t.about.eyebrow}</span>
           <h1 className="max-w-[15ch] text-[clamp(44px,7.4vw,90px)] tracking-[-.05em] max-[680px]:max-w-none">
-            Eleven people.
+            {t.about.h1}
             <br />
-            No <span className="em-u">handoffs.</span>
+            {t.about.h1b}
+            <span className="em-u">{t.about.h1em}</span>
           </h1>
           <p className="mt-7 max-w-[52ch] text-[clamp(18px,1.8vw,22px)] leading-[1.5] font-light text-fg-2">
-            We started IVE because we were tired of watching good design die in the gap between the
-            designer and the developer. So we removed the gap.
+            {t.about.lead}
           </p>
         </div>
       </header>
@@ -42,20 +57,12 @@ export function About() {
         <div className="wrap narrow">
           <Reveal className="mt-[26px] [&_p]:max-w-[66ch] [&_p]:text-[18.5px] [&_p]:leading-[1.62] [&_p]:font-light [&_p]:text-fg-2 [&_p+p]:mt-[22px] [&_b]:font-medium [&_b]:text-fg">
             <p>
-              IVE began in 2017 as two people and one stubborn idea:{' '}
-              <b>the person who draws the screen should sit next to the person who builds it.</b> Not
-              in another agency. Not in another timezone. Next to them.
+              {t.about.story1a}
+              <b>{t.about.story1b}</b>
+              {t.about.story1c}
             </p>
-            <p>
-              Nine years later we&apos;re eleven, and the rule hasn&apos;t changed. Every project has
-              one team from the first call to the last deploy — the same people who promised you a
-              date are the ones who hit it.
-            </p>
-            <p>
-              We don&apos;t have account managers. We don&apos;t have a sales department. When you
-              book a call, you talk to whoever will actually do the work, and they&apos;ll tell you
-              honestly if we&apos;re the wrong fit.
-            </p>
+            <p>{t.about.story2}</p>
+            <p>{t.about.story3}</p>
           </Reveal>
         </div>
       </section>
@@ -80,12 +87,13 @@ export function About() {
       <section className="py-[110px] max-[680px]:py-[76px]">
         <div className="wrap">
           <Reveal as="span" className="eyebrow">
-            How we work
+            {t.about.howEyebrow}
           </Reveal>
           <Reveal as="h2" className="mt-4 max-w-[18ch] text-[clamp(30px,4.2vw,52px)] tracking-[-.042em] max-[680px]:max-w-none">
-            Three rules we
+            {t.about.howTitle}
             <br />
-            don&apos;t <span className="em">break.</span>
+            {t.about.howTitle2}
+            <span className="em">{t.about.howTitleEm}</span>
           </Reveal>
           <div className="mt-[52px] grid grid-cols-3 gap-[22px] max-[1000px]:grid-cols-1">
             {values.map((v, i) => (
@@ -109,15 +117,16 @@ export function About() {
       <section id="team" className="py-20 max-[680px]:py-[60px]">
         <div className="wrap">
           <Reveal as="span" className="eyebrow">
-            Team
+            {t.about.teamEyebrow}
           </Reveal>
           <Reveal as="h2" className="mt-4 max-w-[18ch] text-[clamp(30px,4.2vw,52px)] tracking-[-.042em] max-[680px]:max-w-none">
-            The people who
+            {t.about.teamTitle}
             <br />
-            will <span className="em">build it.</span>
+            {t.about.teamTitle2}
+            <span className="em">{t.about.teamTitleEm}</span>
           </Reveal>
           <Reveal as="p" className="mt-5 max-w-[50ch] text-[18px] leading-[1.55] font-light text-fg-2">
-            Not a stock roster. These two lead every project that goes through the studio.
+            {t.about.teamLead}
           </Reveal>
 
           <div className="mt-[52px] grid max-w-[720px] grid-cols-2 gap-6 max-[1000px]:max-w-[420px] max-[1000px]:grid-cols-1">
@@ -127,7 +136,7 @@ export function About() {
                   <img
                     className="absolute top-0 left-0 block h-full w-full object-cover"
                     src={m.img}
-                    alt={m.name}
+                    alt={`${m.name} — ${m.role}, IVE studio`}
                     width={800}
                     height={800}
                     loading="lazy"
@@ -145,7 +154,8 @@ export function About() {
                     <a
                       key={l.label}
                       href={l.url}
-                      {...(l.url !== '#' && { target: '_blank', rel: 'noopener noreferrer' })}
+                      target="_blank"
+                      rel="noopener noreferrer me"
                       className="text-[14.5px] text-fg-3 transition-colors hover:text-gold"
                     >
                       {l.label}
@@ -159,9 +169,9 @@ export function About() {
       </section>
 
       <CtaSection
-        title="Want to meet the team?"
-        sub="Thirty free minutes — you'll talk to one of the two above, not a manager."
-        button="Meet the team"
+        title={t.about.ctaTitle}
+        sub={t.about.ctaSub}
+        button={t.about.ctaButton}
         source={`${SOURCE}: cta`}
       />
 
@@ -169,13 +179,6 @@ export function About() {
     </>
   )
 }
-
-const numbers = [
-  { value: '9', label: 'years in business' },
-  { value: '140+', label: 'projects shipped' },
-  { value: '11', label: 'people on the team' },
-  { value: '7', label: 'countries served' },
-]
 
 const stroke = {
   fill: 'none',
@@ -185,46 +188,28 @@ const stroke = {
   strokeLinejoin: 'round' as const,
 }
 
-const values = [
-  {
-    title: 'The date is the date',
-    text: "We quote fixed scope and fixed price. If we misjudged it, that's our cost, not yours.",
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" {...stroke}>
-        <path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1" />
-        <circle cx="12" cy="12" r="3.4" />
-      </svg>
-    ),
-  },
-  {
-    title: 'You see everything',
-    text: 'Weekly demos on a live link from week one. No reveal at the end, no surprises.',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" {...stroke}>
-        <path d="M3 12s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6z" />
-        <circle cx="12" cy="12" r="2.6" />
-      </svg>
-    ),
-  },
-  {
-    title: 'We measure the result',
-    text: "Analytics before launch, numbers after. A pretty site that doesn't convert is a failed project.",
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" {...stroke}>
-        <path d="M4 18.5L9.5 10l4 4.6 3-3.8 3.5 6" />
-        <path d="M3.5 21h17" />
-        <circle cx="17.5" cy="5.5" r="2.2" />
-      </svg>
-    ),
-  },
+/** Иконки принципов — порядок совпадает с value1…value3 в словаре. */
+const icons = [
+  <svg width="22" height="22" viewBox="0 0 24 24" {...stroke}>
+    <path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1" />
+    <circle cx="12" cy="12" r="3.4" />
+  </svg>,
+  <svg width="22" height="22" viewBox="0 0 24 24" {...stroke}>
+    <path d="M3 12s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6z" />
+    <circle cx="12" cy="12" r="2.6" />
+  </svg>,
+  <svg width="22" height="22" viewBox="0 0 24 24" {...stroke}>
+    <path d="M4 18.5L9.5 10l4 4.6 3-3.8 3.5 6" />
+    <path d="M3.5 21h17" />
+    <circle cx="17.5" cy="5.5" r="2.2" />
+  </svg>,
 ]
 
-const team = [
+/** Имена, фото и профили — единственное, что не переводится. */
+const people = [
   {
     name: 'Herman Hubanov',
-    role: 'Founder · Designer',
     img: '/herman.jpg',
-    text: 'Fifteen years in product design. Runs discovery on every project and draws the first screen himself.',
     links: [
       { label: 'LinkedIn', url: 'https://www.linkedin.com/in/herman-hubanov/' },
       { label: 'Dribbble', url: 'https://dribbble.com/herman-hubanov' },
@@ -232,13 +217,8 @@ const team = [
   },
   {
     name: 'Alexander Hubanov',
-    role: 'Full Stack Developer',
     img: '/alexander.jpg',
-    text: 'Builds what the team draws, to the pixel. Owns performance, integrations and everything after deploy.',
-    // TODO: заменить на настоящие профили Александра
-    links: [
-      { label: 'LinkedIn', url: '#' },
-      { label: 'GitHub', url: '#' },
-    ],
+    // Профилей пока нет — впишите адреса, и ссылки появятся сами.
+    links: [] as Array<{ label: string; url: string }>,
   },
 ]

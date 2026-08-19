@@ -29,12 +29,15 @@ export type Post = {
   body: Block[]
 }
 
-export const postFilters: Array<{ key: 'all' | PostFilter; label: string }> = [
-  { key: 'all', label: 'All' },
-  { key: 'ux', label: 'UX' },
-  { key: 'dev', label: 'Development' },
-  { key: 'process', label: 'Process' },
-  { key: 'business', label: 'Business' },
+type PostFilterLabel = 'filterAll' | 'filterUx' | 'filterDev' | 'filterProcess' | 'filterBusiness'
+
+/** label — ключ в словаре (t.blog.*). Заголовки самих статей остаются английскими. */
+export const postFilters: Array<{ key: 'all' | PostFilter; label: PostFilterLabel }> = [
+  { key: 'all', label: 'filterAll' },
+  { key: 'ux', label: 'filterUx' },
+  { key: 'dev', label: 'filterDev' },
+  { key: 'process', label: 'filterProcess' },
+  { key: 'business', label: 'filterBusiness' },
 ]
 
 export const featuredPost: Post = {

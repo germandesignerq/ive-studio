@@ -25,12 +25,15 @@ export type Work = {
   cover?: CoverKey
 }
 
-export const workFilters: Array<{ key: WorkFilterKey; label: string }> = [
-  { key: 'all', label: 'All' },
-  { key: 'landing', label: 'Landing' },
-  { key: 'crm', label: 'CRM' },
-  { key: 'app', label: 'Application Solutions' },
-  { key: 'case', label: 'Case studies' },
+type WorkFilterLabel = 'filterAll' | 'filterLanding' | 'filterCrm' | 'filterApp' | 'filterCase'
+
+/** label — ключ в словаре (t.work.*), а не готовая строка. */
+export const workFilters: Array<{ key: WorkFilterKey; label: WorkFilterLabel }> = [
+  { key: 'all', label: 'filterAll' },
+  { key: 'landing', label: 'filterLanding' },
+  { key: 'crm', label: 'filterCrm' },
+  { key: 'app', label: 'filterApp' },
+  { key: 'case', label: 'filterCase' },
 ]
 
 export const works: Work[] = [

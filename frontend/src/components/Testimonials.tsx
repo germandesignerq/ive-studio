@@ -15,7 +15,14 @@ function Card({ review }: { review: Review }) {
       </blockquote>
       <figcaption className="mt-6 flex items-center gap-[13px] border-t border-line pt-5">
         {review.img ? (
-          <img className="ava h-12 w-12 flex-none rounded-full object-cover" src={review.img} alt={review.name} />
+          <img
+            className="ava h-12 w-12 flex-none rounded-full object-cover"
+            src={review.img}
+            alt={`${review.name}, ${review.role}`}
+            width={96}
+            height={96}
+            loading="lazy"
+          />
         ) : (
           <div
             className="ava ava-init grid h-12 w-12 flex-none place-items-center overflow-hidden rounded-full p-[9px]"

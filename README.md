@@ -48,8 +48,58 @@ Site: http://localhost:5173
 ### Production build
 
 ```bash
-cd frontend && npm run build && npm run preview
+cd frontend && npm run build
 ```
+
+`npm run build` теперь делает три шага: собирает клиент, собирает SSR-бандл и
+**пререндерит каждый маршрут в готовый HTML** (`scripts/prerender.mjs`). В `dist`
+оказываются обычные статические страницы — `dist/pricing/index.html`,
+`dist/de/pricing/index.html` и так далее — плюс `sitemap.xml`, `robots.txt` и
+`404.html`. Без этого шага краулеры без JS (Bing, LinkedIn, Telegram, WhatsApp,
+Facebook) видят пустой `<div id="root">`.
+
+Посмотреть результат ровно так, как его отдаст nginx:
+
+```bash
+cd frontend && npm run build && node scripts/serve-dist.mjs 5185
+```
+
+`npm run build:spa` собирает без пререндера — если нужно быстро проверить сборку.
+
+### Что должен делать nginx
+
+Пререндер раскладывает страницы по каталогам, поэтому фолбэк на корневой
+`index.html` теперь стирал бы всю работу. Нужен именно такой порядок:
+
+```nginx
+location / {
+  try_files $uri $uri/index.html /404.html;
+}
+```
+
+Файлы с хешем в имени (`/assets/*`) и шрифты можно отдавать с
+`Cache-Control: public, max-age=31536000, immutable`, а `*/index.html` —
+с коротким `max-age`, иначе после деплоя посетители какое-то время будут
+видеть старые страницы.
+
+## SEO
+
+Всё, что попадает в `<head>`, считается в одном месте — `src/lib/seo.ts`
+(`metaFor(pathname)`), и это же используют пререндер и клиент при навигации.
+Домен лежит в `src/lib/site.ts` — `SITE_URL`.
+
+- title/description на каждый маршрут и на каждый язык
+- canonical, hreflang (`en`/`de`/`fr` + `x-default`), Open Graph, Twitter Card
+- JSON-LD: `ProfessionalService`, `WebSite`, `BlogPosting`, `CreativeWork`,
+  `Service` с ценами, `BreadcrumbList`
+- `sitemap.xml` с `xhtml:link` и `robots.txt` — генерируются на сборке
+
+Немецкая и французская версии живут на своих адресах (`/de/...`, `/fr/...`) —
+без этого поисковик их не видел вообще. Переведены главная, About, Pricing и
+список блога; у статей, кейсов и политики canonical ведёт на английскую версию.
+
+Картинка превью — `public/og-cover.jpg`, пересобирается
+`python3 scripts/make-og-image.py`.
 
 ## What the backend does
 
@@ -118,8 +168,7 @@ can close on its own:
 4. **`Privacy.tsx` is a draft.** The bracketed placeholders — legal entity, address,
    registration number, retention periods, service names — still need filling in.
    Have a lawyer review it before it goes live.
-5. **Link previews.** There's no `og:image` on any page: sharing a link in a
-   messenger shows an empty rectangle. Needs a 1200×630 image. For an SPA these
-   tags are easier to serve at the hosting layer or via prerendering.
-6. **Fonts load from Google Fonts** — meaning visitor IPs go to Google. For the
-   European market, self-hosting them in `public/` is safer.
+5. ~~**Link previews.**~~ Закрыто: `og:image` (`public/og-cover.jpg`) и полный
+   набор мета-тегов печатаются пререндером в каждую страницу.
+6. ~~**Fonts load from Google Fonts.**~~ Закрыто: Outfit лежит в
+   `public/fonts/` одним вариативным woff2.

@@ -1,12 +1,14 @@
 import { useState } from 'react'
-import { Link } from 'react-router'
+import { Link } from '@/i18n/Link'
 import { covers } from '@/data/covers'
 import { workFilters, works, type Work, type WorkFilterKey } from '@/data/works'
+import { useLanguage } from '@/i18n/LanguageContext'
 import { Reveal } from './Reveal'
 import { ArrowRight } from './icons'
 
 export function WorkGrid() {
   const [filter, setFilter] = useState<WorkFilterKey>('all')
+  const { t } = useLanguage()
 
   /* «Case studies» — отдельная вкладка: проекты с разбором показываются
      только в ней и намеренно не попадают ни в «All», ни в категории. */
@@ -23,7 +25,7 @@ export function WorkGrid() {
             className={filter === f.key ? 'on' : ''}
             onClick={() => setFilter(f.key)}
           >
-            {f.label}
+            {t.work[f.label]}
           </button>
         ))}
       </Reveal>
@@ -47,8 +49,11 @@ export function WorkGrid() {
                   {w.img ? (
                     <img
                       src={w.img}
-                      alt={w.name}
+                      alt={`${w.name} — ${w.tags}`}
+                      width={1600}
+                      height={1000}
                       loading="lazy"
+                      decoding="async"
                       className="absolute inset-0 h-full w-full object-cover transition-transform duration-[600ms]"
                     />
                   ) : (
@@ -64,7 +69,7 @@ export function WorkGrid() {
                       </span>
                       {w.caseStudy && (
                         <span className="rounded-full border border-[rgba(233,201,127,.3)] bg-[rgba(233,201,127,.07)] px-[10px] py-[3px] font-label text-[12.5px] tracking-[.1em] uppercase text-gold-soft">
-                          Case study
+                          {t.work.caseStudy}
                         </span>
                       )}
                     </div>
@@ -90,6 +95,7 @@ export function WorkGrid() {
  * Пока адрес не задан, карточка остаётся некликабельной: битая ссылка хуже её отсутствия.
  */
 function CardShell({ work, children }: { work: Work; children: React.ReactNode }) {
+  const { t } = useLanguage()
   if (work.caseStudy)
     return (
       <Link to={`/work/${work.slug}`} className="card-link block">
@@ -104,7 +110,7 @@ function CardShell({ work, children }: { work: Work; children: React.ReactNode }
         target="_blank"
         rel="noopener noreferrer"
         className="card-link block"
-        aria-label={`${work.name} — open the live site`}
+        aria-label={`${work.name} — ${t.work.openLive}`}
       >
         {children}
       </a>

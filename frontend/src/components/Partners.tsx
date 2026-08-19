@@ -1,23 +1,25 @@
 import { Reveal } from './Reveal'
 import { partners, type Partner } from '@/data/partners'
+import { useLanguage } from '@/i18n/LanguageContext'
 
 /**
  * Стена логотипов на тонкой сетке — тот же приём, что у шагов Process.
  * Знаки прорисовываются штрихом при появлении и подсвечиваются на ховере.
  */
 export function Partners() {
+  const { t } = useLanguage()
+
   return (
     <>
       <Reveal className="flex flex-wrap items-end justify-between gap-[30px]">
         <div>
-          <span className="eyebrow">Partners</span>
+          <span className="eyebrow">{t.partners.eyebrow}</span>
           <h2 className="mt-4 max-w-[16ch] text-[clamp(32px,4.8vw,60px)] tracking-[-.042em]">
-            Teams that let us near <span className="em">their numbers.</span>
+            {t.partners.title}<span className="em">{t.partners.titleEm}</span>
           </h2>
         </div>
         <p className="mb-[6px] max-w-[44ch] text-[18px] leading-[1.5] font-light text-fg-2">
-          A short list on purpose. We take on a handful of clients a year and stay with them after
-          launch.
+          {t.partners.lead}
         </p>
       </Reveal>
 
@@ -31,6 +33,7 @@ export function Partners() {
 }
 
 function Cell({ partner, index, total }: { partner: Partner; index: number; total: number }) {
+  const { t } = useLanguage()
   /* Правую границу гасим у последней колонки, нижнюю — у последнего ряда,
      иначе сетка обрастает висящими линиями по краю. */
   const lastInRow = (index + 1) % 3 === 0
@@ -70,7 +73,7 @@ function Cell({ partner, index, total }: { partner: Partner; index: number; tota
         target="_blank"
         rel="noopener noreferrer"
         className={className}
-        aria-label={`${partner.name} — open the site`}
+        aria-label={`${partner.name} — ${t.work.openLive}`}
       >
         {inner}
       </a>

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router'
+import { Link } from '@/i18n/Link'
 import { Nav } from '@/components/Nav'
 import { Footer } from '@/components/Footer'
 import { Reveal } from '@/components/Reveal'
@@ -8,16 +8,13 @@ import { ArrowRight } from '@/components/icons'
 import { PostVisual } from '@/data/post-covers'
 import { featuredPost, postFilters, posts, type Post, type PostFilter } from '@/data/posts'
 import { useFollowGlow } from '@/hooks/useFollowGlow'
-import { usePageMeta } from '@/hooks/usePageMeta'
+import { useLanguage } from '@/i18n/LanguageContext'
 
 const SOURCE = 'blog'
 
 export function Blog() {
-  usePageMeta(
-    'Blog — IVE studio',
-    'Notes from a studio that ships: conversion, UX, design systems and what we learned the expensive way.',
-  )
   const heroRef = useFollowGlow<HTMLElement>(50, 44)
+  const { t } = useLanguage()
   const [filter, setFilter] = useState<'all' | PostFilter>('all')
 
   /* Карточки не размонтируются при фильтрации, а скрываются: иначе они
@@ -62,7 +59,7 @@ export function Blog() {
                 {featuredPost.excerpt}
               </p>
               <span className="mt-7 inline-flex items-center gap-[10px] text-[15.5px] font-medium text-gold">
-                Read the post
+                {t.blog.readPost}
                 <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
               </span>
             </div>
@@ -81,7 +78,7 @@ export function Blog() {
               className={filter === f.key ? 'on' : ''}
               onClick={() => setFilter(f.key)}
             >
-              {f.label}
+              {t.blog[f.label]}
             </button>
           ))}
         </div>
@@ -124,7 +121,7 @@ export function Blog() {
 
           {shownCount === 0 && (
             <p className="py-[60px] text-[17px] font-light text-fg-3">
-              Nothing here yet under this topic. Try another one.
+              {t.blog.empty}
             </p>
           )}
         </div>
@@ -132,9 +129,9 @@ export function Blog() {
 
       <div className="mt-[90px]">
         <CtaSection
-          title="Rather talk than read?"
-          sub="Thirty free minutes. Bring a link and a question."
-          button="Start a project"
+          title={t.blog.ctaTitle}
+          sub={t.blog.ctaSub}
+          button={t.blog.ctaButton}
           source={`${SOURCE}: cta`}
         />
       </div>

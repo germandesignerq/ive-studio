@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router'
+import { useLocation } from 'react-router'
+import { Link } from '@/i18n/Link'
 import { useStickyNav } from '@/hooks/useStickyNav'
 import { useScrollSpy } from '@/hooks/useScrollSpy'
 import { useCallModal } from '@/context/CallModalContext'

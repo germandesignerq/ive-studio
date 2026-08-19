@@ -352,7 +352,21 @@ export function PostVisual({
   loading?: 'lazy' | 'eager'
 }) {
   if (post.image) {
-    return <img src={post.image} alt="" aria-hidden loading={loading} className={className} />
+    return (
+      <img
+        src={post.image}
+        alt={post.title}
+        /* Размеры заданы явно: без них браузер не знает высоту до загрузки
+           и страница дёргается — это и есть CLS в Core Web Vitals. */
+        width={1600}
+        height={1000}
+        loading={loading}
+        // eager-обложка — LCP-элемент страницы, её стоит забрать первой
+        fetchPriority={loading === 'eager' ? 'high' : undefined}
+        decoding={loading === 'eager' ? 'sync' : 'async'}
+        className={className}
+      />
+    )
   }
   return <PostCover name={post.cover} className={className} />
 }

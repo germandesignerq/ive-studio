@@ -1,7 +1,6 @@
-import { Link } from 'react-router'
+import { Link } from '@/i18n/Link'
 import { Nav } from '@/components/Nav'
 import { FooterSlim } from '@/components/Footer'
-import { usePageMeta } from '@/hooks/usePageMeta'
 
 const sections = [
   { id: 'who', label: '1. Who we are' },
@@ -17,10 +16,6 @@ const sections = [
 ]
 
 export function Privacy() {
-  usePageMeta(
-    'Privacy Policy — IVE studio',
-    'What data IVE studio collects, why, how long we keep it and how to have it deleted.',
-  )
 
   return (
     <>

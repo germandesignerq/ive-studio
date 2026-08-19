@@ -5,9 +5,9 @@ import { WorkGrid } from '@/components/WorkGrid'
 import { Testimonials } from '@/components/Testimonials'
 import { Partners } from '@/components/Partners'
 import { HeroVeil, SilkCanvas } from '@/components/SilkCanvas'
+import { HeroMarquee } from '@/components/HeroMarquee'
 import { LeadForm } from '@/components/LeadForm'
 import { useFollowGlow } from '@/hooks/useFollowGlow'
-import { usePageMeta } from '@/hooks/usePageMeta'
 import { useCallModal } from '@/context/CallModalContext'
 import { useLanguage, useLocalized } from '@/i18n/LanguageContext'
 import { Check } from '@/components/icons'
@@ -15,10 +15,6 @@ import { Check } from '@/components/icons'
 const SOURCE = 'home'
 
 export function Home() {
-  usePageMeta(
-    'IVE — UX/UI design and web development studio',
-    'We design and build websites that actually convert. UX/UI design and development for startups and growing businesses.',
-  )
   const heroRef = useFollowGlow<HTMLElement>(50, 44)
   const { openCall } = useCallModal()
   const { t } = useLanguage()
@@ -32,7 +28,7 @@ export function Home() {
       <header
         ref={heroRef}
         id="top"
-        className="glow relative overflow-hidden py-[190px] pb-[140px] max-[680px]:py-[130px] max-[680px]:pb-[90px]"
+        className="glow relative overflow-hidden py-[190px] pb-[92px] max-[680px]:py-[130px] max-[680px]:pb-[64px]"
       >
         <SilkCanvas />
         <HeroVeil />
@@ -58,6 +54,7 @@ export function Home() {
             </a>
           </div>
         </div>
+        <HeroMarquee />
       </header>
 
       {/* ── PROBLEM ── */}

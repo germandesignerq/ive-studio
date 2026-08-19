@@ -1,16 +1,19 @@
 import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { createRoot, hydrateRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router'
 import App from './App'
-import { LanguageProvider } from './i18n/LanguageContext'
 import './index.css'
 
-createRoot(document.getElementById('root')!).render(
+const root = document.getElementById('root')!
+
+const tree = (
   <StrictMode>
-    <LanguageProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </LanguageProvider>
-  </StrictMode>,
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </StrictMode>
 )
+
+// Пререндер кладёт готовую разметку — тогда её нужно оживить, а не перерисовать.
+if (root.dataset.prerendered === 'true') hydrateRoot(root, tree)
+else createRoot(root).render(tree)

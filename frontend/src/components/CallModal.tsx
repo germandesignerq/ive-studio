@@ -2,12 +2,15 @@ import { useEffect, useRef, useState } from 'react'
 import { useCallModal } from '@/context/CallModalContext'
 import { ApiError, submitLead } from '@/lib/api'
 import { isEmail, isMessage, isName } from '@/lib/validation'
+import { useLanguage, useLocalized } from '@/i18n/LanguageContext'
 import { Check, Close } from './icons'
 
 type Errors = { name?: boolean; email?: boolean; message?: boolean }
 
 export function CallModal() {
   const { request, closeCall } = useCallModal()
+  const { t } = useLanguage()
+  const pick = useLocalized()
   const open = request !== null
   const plan = request?.plan
 
@@ -82,7 +85,7 @@ export function CallModal() {
       })
       setDone(true)
     } catch (err) {
-      setFailure(err instanceof ApiError ? err.message : 'Could not send the request.')
+      setFailure(err instanceof ApiError ? err.message : t.leadForm.couldNotSend)
     } finally {
       setSending(false)
     }
@@ -116,7 +119,7 @@ export function CallModal() {
         <button
           type="button"
           onClick={closeCall}
-          aria-label="Close"
+          aria-label={t.callModal.close}
           className="modal-x absolute top-4 right-4 z-[2] grid h-[38px] w-[38px] cursor-pointer place-items-center rounded-full border border-line text-fg-2 transition-all duration-[250ms]"
         >
           <Close />
@@ -127,23 +130,25 @@ export function CallModal() {
             <div className="mx-auto mb-[22px] grid h-[60px] w-[60px] place-items-center rounded-full bg-gold text-[#0B0B0C]">
               <Check size={26} strokeWidth={2.6} />
             </div>
-            <h3 className="text-[26px] tracking-[-.03em]">Request sent.</h3>
+            <h3 className="text-[26px] tracking-[-.03em]">{t.leadForm.doneTitle}</h3>
             <p className="mx-auto mt-[14px] max-w-[32ch] text-[16px] font-light text-fg-2">
               {plan ? (
                 <>
-                  We&apos;ll get back to you within 24 hours about the <b>{plan.eyebrow}</b> package.
+                  {t.callModal.donePlan.split('{plan}')[0]}
+                  <b>{plan.eyebrow}</b>
+                  {t.callModal.donePlan.split('{plan}')[1]}
                 </>
               ) : (
-                <>We&apos;ll get back to you within 24 hours with a few times for the call.</>
+                t.leadForm.doneText
               )}
             </p>
           </div>
         ) : (
           <>
             <div className="mb-[26px] border-b border-line pr-[44px] pb-6">
-              <span className="eyebrow block text-gold">{plan ? plan.eyebrow : 'Free 30-minute call'}</span>
+              <span className="eyebrow block text-gold">{plan ? plan.eyebrow : t.callModal.freeCall}</span>
               <h3 id="call-modal-title" className="mt-[14px] text-[28px] tracking-[-.035em]">
-                {plan ? plan.title : (request.title ?? "Tell us what you're building")}
+                {plan ? pick(plan.title) : (request.title ?? t.callModal.title)}
               </h3>
 
               {plan ? (
@@ -151,33 +156,39 @@ export function CallModal() {
                   <div className="mt-5 flex flex-wrap items-baseline gap-[14px]">
                     <b className="text-[38px] leading-none font-semibold tracking-[-.045em]">
                       <i className="mr-2 text-[15px] font-normal tracking-normal text-fg-2 not-italic">
-                        from
+                        {t.pricing.from}
                       </i>
                       {plan.from}
                     </b>
-                    <span className="font-label text-[16px] text-fg-2">{plan.range}</span>
+                    <span className="font-label text-[16px] text-fg-2">{pick(plan.range)}</span>
                   </div>
                   <div className="mt-5 flex flex-wrap gap-2">
                     {plan.incl.map((item) => (
                       <span
-                        key={item}
+                        key={item.en}
                         className="rounded-full border border-[rgba(233,201,127,.25)] bg-[rgba(233,201,127,.06)] px-[14px] py-[6px] text-[13.5px] text-gold-soft"
                       >
-                        {item}
+                        {pick(item)}
                       </span>
                     ))}
                   </div>
                 </>
               ) : (
                 <p className="mt-3 max-w-[36ch] text-[16px] font-light text-fg-2">
-                  {request.description ?? 'No pitch deck. You leave with a scope, a timeline and a number.'}
+                  {request.description ?? t.callModal.description}
                 </p>
               )}
             </div>
 
             <form onSubmit={onSubmit} noValidate>
               <div className="grid grid-cols-2 gap-4 max-[680px]:grid-cols-1 max-[680px]:gap-0">
-                <Field label="Name" htmlFor="cmName" required error={errors.name} message="Please enter your name">
+                <Field
+                  label={t.leadForm.name}
+                  htmlFor="cmName"
+                  required
+                  error={errors.name}
+                  message={t.leadForm.nameError}
+                >
                   <input
                     ref={nameRef}
                     id="cmName"
@@ -189,11 +200,11 @@ export function CallModal() {
                   />
                 </Field>
                 <Field
-                  label="Email"
+                  label={t.leadForm.email}
                   htmlFor="cmEmail"
                   required
                   error={errors.email}
-                  message="Please enter a valid email"
+                  message={t.leadForm.emailError}
                 >
                   <input
                     ref={emailRef}
@@ -208,17 +219,17 @@ export function CallModal() {
               </div>
 
               <Field
-                label={plan ? 'Anything we should know?' : "What's the project?"}
+                label={plan ? t.callModal.planMessage : t.callModal.projectMessage}
                 htmlFor="cmMsg"
                 required={!plan}
                 error={errors.message}
-                message="A sentence or two is enough"
+                message={t.leadForm.messageError}
               >
                 <textarea
                   ref={messageRef}
                   id="cmMsg"
                   name="message"
-                  placeholder="A link to your current site, a deadline, a rough scope — whatever helps."
+                  placeholder={t.callModal.messagePlaceholder}
                   value={values.message}
                   onChange={(e) => set('message')(e.target.value)}
                 />
@@ -231,10 +242,10 @@ export function CallModal() {
               )}
 
               <button className="btn btn-primary w-full" type="submit" disabled={sending}>
-                {sending ? 'Sending…' : 'Send request'}
+                {sending ? t.leadForm.sending : t.leadForm.send}
               </button>
               <p className="mt-4 text-center text-[13px] leading-[1.5] text-fg-3">
-                We reply within 24 hours, always a human.
+                {t.callModal.footnote}
               </p>
             </form>
           </>

@@ -1,28 +1,28 @@
-import { Link } from 'react-router'
+import { Link } from '@/i18n/Link'
 import { Nav } from '@/components/Nav'
 import { FooterSlim } from '@/components/Footer'
-import { usePageMeta } from '@/hooks/usePageMeta'
+import { useLanguage } from '@/i18n/LanguageContext'
 
 export function NotFound() {
-  usePageMeta('Page not found — IVE studio')
+  const { t } = useLanguage()
 
   return (
     <>
       <Nav source="404" />
       <main className="wrap flex min-h-[70vh] flex-col justify-center pt-[150px] pb-[90px]">
-        <span className="eyebrow mb-[22px] block">404</span>
+        <span className="eyebrow mb-[22px] block">{t.notFound.eyebrow}</span>
         <h1 className="max-w-[14ch] text-[clamp(44px,7.4vw,90px)] tracking-[-.05em]">
-          This page never <span className="em-u">shipped.</span>
+          {t.notFound.title}<span className="em-u">{t.notFound.titleEm}</span>
         </h1>
         <p className="mt-7 max-w-[46ch] text-[clamp(18px,1.8vw,22px)] leading-[1.5] font-light text-fg-2">
-          The link is dead or the page moved. Everything else is where you left it.
+          {t.notFound.lead}
         </p>
         <div className="mt-10 flex flex-wrap gap-[14px]">
           <Link className="btn btn-primary" to="/">
-            Back home
+            {t.notFound.backHome}
           </Link>
           <Link className="btn btn-ghost" to="/blog">
-            Read the blog
+            {t.notFound.readBlog}
           </Link>
         </div>
       </main>
