@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from '@/i18n/Link'
 import { covers } from '@/data/covers'
-import { workFilters, works, type Work, type WorkFilterKey } from '@/data/works'
+import { visibleWorks, workFilters, type Work, type WorkFilterKey } from '@/data/works'
 import { useLanguage } from '@/i18n/LanguageContext'
 import { Reveal } from './Reveal'
 import { ArrowRight } from './icons'
@@ -31,7 +31,7 @@ export function WorkGrid() {
       </Reveal>
 
       <div className="mt-8 grid grid-cols-2 gap-6 max-[1000px]:grid-cols-1">
-        {works.map((w, i) => {
+        {visibleWorks.map((w, i) => {
           /* Скрываем, а не размонтируем: пересозданная карточка появилась бы
              с opacity 0 и ждала наблюдателя — фильтр выглядел бы сломанным. */
           const hidden = !matches(w)

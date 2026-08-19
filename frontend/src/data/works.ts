@@ -27,14 +27,24 @@ export type Work = {
 
 type WorkFilterLabel = 'filterAll' | 'filterLanding' | 'filterCrm' | 'filterApp' | 'filterCase'
 
-/** label — ключ в словаре (t.work.*), а не готовая строка. */
-export const workFilters: Array<{ key: WorkFilterKey; label: WorkFilterLabel }> = [
+/**
+ * Раздел кейсов временно скрыт: вкладка не показывается, карточки не
+ * рендерятся, страницы /work/:slug не попадают в sitemap и закрыты от
+ * индексации. Сами данные и разметка кейсов остаются на месте —
+ * чтобы вернуть раздел, достаточно поставить true.
+ */
+export const SHOW_CASE_STUDIES = false
+
+const allFilters: Array<{ key: WorkFilterKey; label: WorkFilterLabel }> = [
   { key: 'all', label: 'filterAll' },
   { key: 'landing', label: 'filterLanding' },
   { key: 'crm', label: 'filterCrm' },
   { key: 'app', label: 'filterApp' },
   { key: 'case', label: 'filterCase' },
 ]
+
+/** label — ключ в словаре (t.work.*), а не готовая строка. */
+export const workFilters = allFilters.filter((f) => SHOW_CASE_STUDIES || f.key !== 'case')
 
 export const works: Work[] = [
   {
@@ -165,3 +175,6 @@ export const works: Work[] = [
     img: '/work-cleargate.jpg',
   },
 ]
+
+/** То, что реально показываем в сетке: пока кейсы скрыты, их карточек нет. */
+export const visibleWorks = works.filter((w) => SHOW_CASE_STUDIES || !w.caseStudy)

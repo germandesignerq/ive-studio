@@ -5,7 +5,7 @@
 import { plans } from '@/data/plans'
 import { allPosts, type Post } from '@/data/posts'
 import { allPostsFor } from '@/data/posts-locale'
-import { works, type Work } from '@/data/works'
+import { SHOW_CASE_STUDIES, works, type Work } from '@/data/works'
 import {
   DEFAULT_LOCALE,
   HTML_LANG,
@@ -359,6 +359,9 @@ export function metaFor(pathname: string): PageMeta {
         description: work.result,
         image: work.img ? absoluteUrl(work.img) : absoluteUrl(OG_IMAGE),
         ogType: 'article',
+        /* раздел скрыт — страница ещё открывается по прямой ссылке,
+           но в индекс её не пускаем */
+        noindex: !SHOW_CASE_STUDIES,
         jsonLd: [
           workLd(work, DEFAULT_LOCALE),
           breadcrumbLd(DEFAULT_LOCALE, [
@@ -444,6 +447,8 @@ export function allRoutes(): Array<{ path: string; locales: Locale[] }> {
     { path: '/privacy', locales: [DEFAULT_LOCALE] },
   ]
   for (const p of allPosts) routes.push({ path: `/blog/${p.slug}`, locales: [...LOCALES] })
-  for (const w of works) if (w.caseStudy) routes.push({ path: `/work/${w.slug}`, locales: [DEFAULT_LOCALE] })
+  if (SHOW_CASE_STUDIES)
+    for (const w of works)
+      if (w.caseStudy) routes.push({ path: `/work/${w.slug}`, locales: [DEFAULT_LOCALE] })
   return routes
 }
