@@ -458,6 +458,8 @@
   /* ── лента скриншотов в шапке ── */
   .hero-marq {
     overflow: hidden;
+    /* запас сверху и снизу — иначе увеличенная на ховере карточка обрежется */
+    padding: 20px 0;
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
     mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
   }
@@ -484,6 +486,7 @@
     animation-play-state: paused;
   }
   .hero-shot {
+    position: relative;
     display: block;
     flex: none;
     width: 310px;
@@ -498,10 +501,12 @@
       border-color 350ms var(--ease),
       transform 350ms var(--ease);
   }
+  /* растёт карточка целиком вместе с рамкой — картинка внутри не обрезается */
   .hero-shot:hover {
     opacity: 1;
     border-color: rgba(233, 201, 127, 0.42);
-    transform: translateY(-4px);
+    transform: scale(1.09);
+    z-index: 3;
   }
   @media (max-width: 680px) {
     .hero-shot {

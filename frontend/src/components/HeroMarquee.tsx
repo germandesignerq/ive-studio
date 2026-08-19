@@ -19,7 +19,7 @@ export function HeroMarquee() {
   )
 
   return (
-    <div className="hero-marq relative z-[2] mt-[70px] max-[680px]:mt-[46px]">
+    <div className="hero-marq relative z-[2] mt-[50px] max-[680px]:mt-[26px]">
       <div className="hero-marq-track">
         {half}
         {/* копия для бесшовной петли — от скринридера прячем */}
