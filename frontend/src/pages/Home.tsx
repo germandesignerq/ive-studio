@@ -3,7 +3,7 @@ import { Footer } from '@/components/Footer'
 import { Reveal } from '@/components/Reveal'
 import { WorkGrid } from '@/components/WorkGrid'
 import { Testimonials } from '@/components/Testimonials'
-import { Partners } from '@/components/Partners'
+// import { Partners } from '@/components/Partners' // временно скрыто, не удалять
 import { HeroVeil, SilkCanvas } from '@/components/SilkCanvas'
 import { HeroMarquee } from '@/components/HeroMarquee'
 import { LeadForm } from '@/components/LeadForm'
@@ -188,10 +188,11 @@ export function Home() {
 
       </Section>
 
-      {/* ── PARTNERS ── */}
+      {/* ── PARTNERS ── временно скрыто, не удалять
       <Section tight>
         <Partners />
       </Section>
+      */}
 
       {/* ── RESULTS ── */}
       <Section>
