@@ -184,6 +184,16 @@ export const works: Work[] = [
       'Site for an AI calorie and activity tracker — meals recognised from a photo, a daily kcal ring and a weekly weight trend, no manual food diary.',
     img: '/work-balance.jpg',
   },
+  {
+    slug: 'aimorelove',
+    name: 'AiMore',
+    tags: 'Dating · Landing · Mobile app',
+    url: 'https://aimorelove.com/',
+    category: 'landing',
+    result:
+      'Marketing site for an AI dating app — App Store and Google Play links, feature screens and reviews built around one download-first goal.',
+    img: '/work-aimorelove.jpg',
+  },
 ]
 
 /** То, что реально показываем в сетке: пока кейсы скрыты, их карточек нет. */
