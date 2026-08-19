@@ -181,6 +181,8 @@ const en = {
   },
   blog: {
     readPost: 'Read the post',
+    fact: 'Fact',
+    source: 'Source',
     empty: 'Nothing here yet under this topic. Try another one.',
     allPosts: 'All posts',
     nextPost: 'Next post',
@@ -410,6 +412,8 @@ const de: Widen<typeof en> = {
   },
   blog: {
     readPost: 'Beitrag lesen',
+    fact: 'Fakt',
+    source: 'Quelle',
     empty: 'Zu diesem Thema gibt es noch nichts. Probieren Sie ein anderes.',
     allPosts: 'Alle Beiträge',
     nextPost: 'Nächster Beitrag',
@@ -640,6 +644,8 @@ const fr: Widen<typeof en> = {
   },
   blog: {
     readPost: 'Lire l’article',
+    fact: 'Fait',
+    source: 'Source',
     empty: 'Rien pour l’instant sur ce sujet. Essayez-en un autre.',
     allPosts: 'Tous les articles',
     nextPost: 'Article suivant',

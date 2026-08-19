@@ -9,14 +9,15 @@ import { PostFunnel } from '@/components/PostFunnel'
 import { ShareRow } from '@/components/ShareRow'
 import { ArrowRight } from '@/components/icons'
 import { PostVisual } from '@/data/post-covers'
-import { allPosts, featuredPost } from '@/data/posts'
+import { allPostsFor, displayDate } from '@/data/posts-locale'
 import { useLanguage } from '@/i18n/LanguageContext'
 
 export function Post() {
   const { slug } = useParams()
-  const post = allPosts.find((p) => p.slug === slug) ?? featuredPost
+  const { t, lang } = useLanguage()
+  const allPosts = allPostsFor(lang)
+  const post = allPosts.find((p) => p.slug === slug) ?? allPosts[0]
   const next = allPosts[(allPosts.indexOf(post) + 1) % allPosts.length]
-  const { t } = useLanguage()
 
   const articleRef = useRef<HTMLElement>(null)
   const progress = useReadingProgress(articleRef)
@@ -38,7 +39,7 @@ export function Post() {
               {post.categoryLabel}
             </span>
             <span className="font-label text-[16px] text-fg-2">
-              {post.date} · {post.read} {t.blog.read}
+              {displayDate(post.date, lang)} · {post.read} {t.blog.read}
             </span>
           </div>
 

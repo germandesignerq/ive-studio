@@ -4,6 +4,7 @@
  */
 import { plans } from '@/data/plans'
 import { allPosts, type Post } from '@/data/posts'
+import { allPostsFor } from '@/data/posts-locale'
 import { works, type Work } from '@/data/works'
 import {
   DEFAULT_LOCALE,
@@ -143,6 +144,9 @@ const pageText: Record<string, LocalizedMeta> = {
 
 /** Страницы, у которых есть перевод — только они получают hreflang и попадают в sitemap на трёх языках. */
 const TRANSLATED_PAGES = new Set(['/', '/about', '/pricing', '/blog'])
+
+/** Статьи переведены целиком, поэтому у каждой тоже есть версии на всех языках. */
+const isTranslated = (path: string) => TRANSLATED_PAGES.has(path) || path.startsWith('/blog/')
 
 /* ────────────────────────── JSON-LD ────────────────────────── */
 
@@ -318,14 +322,14 @@ export function metaFor(pathname: string): PageMeta {
     image: absoluteUrl(OG_IMAGE),
     ogType: 'website' as const,
     noindex: false,
-    alternates: TRANSLATED_PAGES.has(path) ? [...LOCALES] : [DEFAULT_LOCALE],
-    canonical: absoluteUrl(localePath(path, TRANSLATED_PAGES.has(path) ? locale : DEFAULT_LOCALE)),
+    alternates: isTranslated(path) ? [...LOCALES] : [DEFAULT_LOCALE],
+    canonical: absoluteUrl(localePath(path, isTranslated(path) ? locale : DEFAULT_LOCALE)),
   }
 
   /* ── статья ── */
   if (path.startsWith('/blog/')) {
     const slug = path.slice('/blog/'.length)
-    const post = allPosts.find((p) => p.slug === slug)
+    const post = allPostsFor(locale).find((p) => p.slug === slug)
     if (post)
       return {
         ...base,
@@ -334,10 +338,10 @@ export function metaFor(pathname: string): PageMeta {
         image: absoluteUrl(post.image ?? OG_IMAGE),
         ogType: 'article',
         jsonLd: [
-          postLd(post, DEFAULT_LOCALE),
-          breadcrumbLd(DEFAULT_LOCALE, [
-            { name: HOME_LABEL.en, path: '/' },
-            { name: BLOG_LABEL.en, path: '/blog' },
+          postLd(post, locale),
+          breadcrumbLd(locale, [
+            { name: HOME_LABEL[locale], path: '/' },
+            { name: BLOG_LABEL[locale], path: '/blog' },
             { name: post.title, path: `/blog/${post.slug}` },
           ]),
         ],
@@ -396,10 +400,10 @@ export function metaFor(pathname: string): PageMeta {
         description: t.description,
         inLanguage: HTML_LANG[locale],
         publisher: { '@id': ORG_ID },
-        blogPost: allPosts.map((p) => ({
+        blogPost: allPostsFor(locale).map((p) => ({
           '@type': 'BlogPosting',
           headline: p.title,
-          url: absoluteUrl(`/blog/${p.slug}`),
+          url: absoluteUrl(localePath(`/blog/${p.slug}`, locale)),
           datePublished: isoDate(p.date),
         })),
       },
@@ -439,7 +443,7 @@ export function allRoutes(): Array<{ path: string; locales: Locale[] }> {
     { path: '/blog', locales: [...LOCALES] },
     { path: '/privacy', locales: [DEFAULT_LOCALE] },
   ]
-  for (const p of allPosts) routes.push({ path: `/blog/${p.slug}`, locales: [DEFAULT_LOCALE] })
+  for (const p of allPosts) routes.push({ path: `/blog/${p.slug}`, locales: [...LOCALES] })
   for (const w of works) if (w.caseStudy) routes.push({ path: `/work/${w.slug}`, locales: [DEFAULT_LOCALE] })
   return routes
 }

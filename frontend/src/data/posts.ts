@@ -14,8 +14,26 @@ export type Block =
   | { kind: 'list'; items: string[] }
   | { kind: 'fact'; title: string; text: string; source?: { label: string; url: string } }
 
+/**
+ * Список слагов зафиксирован: по нему Record в posts.de.ts и posts.fr.ts
+ * обязан покрыть все статьи — забыть перевод не даст компилятор.
+ */
+export const POST_SLUGS = [
+  'landing-page-design-problem',
+  'design-system-nobody-maintains',
+  'stop-testing-onboarding-on-designers',
+  'six-weeks-or-it-never-ships',
+  'pricing-pages-are-product-design',
+  'what-we-ask-before-we-quote',
+  'animations-costing-conversions',
+  'dark-mode-is-not-a-feature',
+  'handoff-is-a-process',
+] as const
+
+export type PostSlug = (typeof POST_SLUGS)[number]
+
 export type Post = {
-  slug: string
+  slug: PostSlug
   title: string
   category: PostFilter
   categoryLabel: string
@@ -28,6 +46,9 @@ export type Post = {
   coverCaption: string
   body: Block[]
 }
+
+/** Переводимая часть статьи. Даты, обложки и категории от языка не зависят. */
+export type PostText = Pick<Post, 'title' | 'excerpt' | 'categoryLabel' | 'coverCaption' | 'body'>
 
 type PostFilterLabel = 'filterAll' | 'filterUx' | 'filterDev' | 'filterProcess' | 'filterBusiness'
 

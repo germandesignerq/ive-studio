@@ -6,7 +6,8 @@ import { Reveal } from '@/components/Reveal'
 import { CtaSection } from '@/components/CtaSection'
 import { ArrowRight } from '@/components/icons'
 import { PostVisual } from '@/data/post-covers'
-import { featuredPost, postFilters, posts, type Post, type PostFilter } from '@/data/posts'
+import { postFilters, type Post, type PostFilter } from '@/data/posts'
+import { displayDate, featuredPostFor, postsFor } from '@/data/posts-locale'
 import { useFollowGlow } from '@/hooks/useFollowGlow'
 import { useLanguage } from '@/i18n/LanguageContext'
 
@@ -14,8 +15,10 @@ const SOURCE = 'blog'
 
 export function Blog() {
   const heroRef = useFollowGlow<HTMLElement>(50, 44)
-  const { t } = useLanguage()
+  const { t, lang } = useLanguage()
   const [filter, setFilter] = useState<'all' | PostFilter>('all')
+  const featuredPost = featuredPostFor(lang)
+  const posts = postsFor(lang)
 
   /* Карточки не размонтируются при фильтрации, а скрываются: иначе они
      пересоздаются с opacity 0 и ждут наблюдателя появления — выглядит так,
@@ -49,7 +52,7 @@ export function Blog() {
                   {featuredPost.categoryLabel}
                 </span>
                 <span className="font-label text-[16px] text-fg-2">
-                  {featuredPost.date} · {featuredPost.read}
+                  {displayDate(featuredPost.date, lang)} · {featuredPost.read}
                 </span>
               </div>
               <h1 className="max-w-[18ch] text-[clamp(28px,3.2vw,40px)] tracking-[-.04em]">
@@ -95,7 +98,7 @@ export function Blog() {
                   <b className="block text-[11px] font-medium tracking-[.1em] uppercase text-gold max-[1000px]:inline">
                     {p.categoryLabel}
                   </b>
-                  {p.date} · {p.read}
+                  {displayDate(p.date, lang)} · {p.read}
                 </div>
                 <div className="relative aspect-16/10 overflow-hidden rounded-md-x border border-line bg-[#0D0D10] max-[680px]:hidden">
                   <PostVisual

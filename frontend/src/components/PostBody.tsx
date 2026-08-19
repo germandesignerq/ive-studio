@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import type { Block } from '@/data/posts'
+import { useLanguage } from '@/i18n/LanguageContext'
 
 /** Разбирает **жирный** внутри текста блока. */
 function rich(text: string): ReactNode[] {
@@ -15,6 +16,7 @@ function rich(text: string): ReactNode[] {
 }
 
 export function PostBody({ blocks }: { blocks: Block[] }) {
+  const { t } = useLanguage()
   return (
     <>
       {blocks.map((b, i) => {
@@ -72,12 +74,12 @@ export function PostBody({ blocks }: { blocks: Block[] }) {
                 key={i}
                 className="glow-top my-11 rounded-md-x border border-[rgba(233,201,127,.22)] bg-[rgba(233,201,127,.05)] p-[26px_28px] max-[680px]:p-[22px_20px]"
               >
-                <span className="eyebrow mb-[10px] block text-gold">Fact</span>
+                <span className="eyebrow mb-[10px] block text-gold">{t.blog.fact}</span>
                 <h3 className="mb-3 text-[19px] font-medium tracking-[-.02em]">{b.title}</h3>
                 <p className="max-w-none text-[16.5px] leading-[1.6]">{rich(b.text)}</p>
                 {b.source && (
                   <p className="mt-4 text-[13.5px] text-fg-3">
-                    Source:{' '}
+                    {t.blog.source}:{' '}
                     <a
                       href={b.source.url}
                       target="_blank"
