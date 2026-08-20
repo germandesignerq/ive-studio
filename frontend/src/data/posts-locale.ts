@@ -2,13 +2,14 @@ import type { Locale } from '@/lib/site'
 import { allPosts, featuredPost, posts, type Post } from './posts'
 import { postsDe } from './posts.de'
 import { postsFr } from './posts.fr'
+import { postsUk } from './posts.uk'
 
 /**
  * Структура статьи (слаг, дата, обложка, категория) живёт в posts.ts,
- * а переводимый текст — в posts.de.ts / posts.fr.ts. Здесь склеиваем.
+ * а переводимый текст — в posts.de.ts / posts.fr.ts / posts.uk.ts. Здесь склеиваем.
  * Английский — сам posts.ts, поэтому подменять нечего.
  */
-const byLocale = { de: postsDe, fr: postsFr }
+const byLocale = { de: postsDe, fr: postsFr, uk: postsUk }
 
 function translate(post: Post, locale: Locale): Post {
   if (locale === 'en') return post
@@ -27,7 +28,7 @@ export function allPostsFor(locale: Locale): Post[] {
   return allPosts.map((p) => translate(p, locale))
 }
 
-const INTL_LOCALE: Record<Locale, string> = { en: 'en-GB', de: 'de-DE', fr: 'fr-FR' }
+const INTL_LOCALE: Record<Locale, string> = { en: 'en-GB', de: 'de-DE', fr: 'fr-FR', uk: 'uk-UA' }
 
 /**
  * Дата только для показа. Само поле post.date остаётся английским —

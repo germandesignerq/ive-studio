@@ -57,8 +57,8 @@ export function useLanguage() {
   return ctx
 }
 
-/** Достаёт нужный язык из локализованного поля данных: { en, de, fr }. */
-export type Localized = { en: string; de: string; fr: string }
+/** Достаёт нужный язык из локализованного поля данных: { en, de, fr, uk }. */
+export type Localized = { en: string; de: string; fr: string; uk: string }
 export function useLocalized() {
   const { lang } = useLanguage()
   return (v: Localized) => v[lang]

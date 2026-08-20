@@ -61,6 +61,11 @@ const pageText: Record<string, LocalizedMeta> = {
       description:
         'Nous concevons des sites qui convertissent : UX/UI, développement web, SaaS et MVP. Périmètre et prix fixes, en ligne en quelques semaines. Appel gratuit de 30 min.',
     },
+    uk: {
+      title: 'Студія UX/UI-дизайну і веброзробки — IVE',
+      description:
+        'Ми проєктуємо і створюємо сайти, які конвертують: UX/UI, веброзробка, SaaS і MVP. Фіксований обсяг, фіксована ціна, запуск за тижні. Безкоштовний дзвінок на 30 хвилин.',
+    },
   },
   '/about': {
     en: {
@@ -77,6 +82,11 @@ const pageText: Record<string, LocalizedMeta> = {
       title: 'À propos du studio — design et développement dans une équipe | IVE',
       description:
         'Pas de transmission, pas de chargés de compte. Rencontrez les personnes qui mènent la découverte, dessinent les écrans et livrent le code.',
+    },
+    uk: {
+      title: 'Про студію — дизайн і розробка в одній команді | IVE',
+      description:
+        'Без передач з рук у руки, без акаунт-менеджерів. Познайомтеся з людьми, які ведуть discovery, малюють екрани і випускають код.',
     },
   },
   '/pricing': {
@@ -95,6 +105,11 @@ const pageText: Record<string, LocalizedMeta> = {
       description:
         'Périmètre et prix fixes à partir de 2 500 $. Comparez trois formules ligne par ligne et voyez exactement ce qui est inclus.',
     },
+    uk: {
+      title: 'Ціни — скільки коштує лендинг, сайт і SaaS | IVE',
+      description:
+        'Фіксований обсяг і фіксована ціна від $2,500. Порівняйте три пакети по пунктах і побачте, що саме входить, ще до розмови з нами.',
+    },
   },
   '/blog': {
     en: {
@@ -112,6 +127,11 @@ const pageText: Record<string, LocalizedMeta> = {
       description:
         'Notes d’un studio qui livre : pourquoi les landing pages échouent, ce que les tests d’onboarding ratent, et nos leçons les plus chères.',
     },
+    uk: {
+      title: 'Блог — конверсія, UX і дизайн-системи | IVE studio',
+      description:
+        'Нотатки студії, що реально запускає проєкти: чому лендинги провалюються, що пропускають тести онбордингу, і наші дорогі уроки.',
+    },
   },
   '/privacy': {
     en: {
@@ -128,6 +148,10 @@ const pageText: Record<string, LocalizedMeta> = {
       description:
         'Quelles données le site collecte, pourquoi, combien de temps nous les conservons et comment les faire supprimer.',
     },
+    uk: {
+      title: 'Політика конфіденційності | IVE studio',
+      description: 'Які дані збирає сайт, навіщо, як довго ми їх зберігаємо і як їх видалити.',
+    },
   },
   '/404': {
     en: { title: 'Page not found | IVE studio', description: 'The link is dead or the page moved.' },
@@ -138,6 +162,10 @@ const pageText: Record<string, LocalizedMeta> = {
     fr: {
       title: 'Page introuvable | IVE studio',
       description: 'Le lien est mort ou la page a été déplacée.',
+    },
+    uk: {
+      title: 'Сторінку не знайдено | IVE studio',
+      description: 'Посилання мертве, або сторінку перенесли.',
     },
   },
 }
@@ -300,11 +328,11 @@ function pricingLd(locale: Locale) {
 
 /* ────────────────────────── резолвер ────────────────────────── */
 
-const BLOG_LABEL: Record<Locale, string> = { en: 'Blog', de: 'Blog', fr: 'Blog' }
-const HOME_LABEL: Record<Locale, string> = { en: 'Home', de: 'Start', fr: 'Accueil' }
-const WORK_LABEL: Record<Locale, string> = { en: 'Work', de: 'Projekte', fr: 'Projets' }
-const ABOUT_LABEL: Record<Locale, string> = { en: 'About', de: 'Über uns', fr: 'À propos' }
-const PRICING_LABEL: Record<Locale, string> = { en: 'Pricing', de: 'Preise', fr: 'Tarifs' }
+const BLOG_LABEL: Record<Locale, string> = { en: 'Blog', de: 'Blog', fr: 'Blog', uk: 'Блог' }
+const HOME_LABEL: Record<Locale, string> = { en: 'Home', de: 'Start', fr: 'Accueil', uk: 'Головна' }
+const WORK_LABEL: Record<Locale, string> = { en: 'Work', de: 'Projekte', fr: 'Projets', uk: 'Проєкти' }
+const ABOUT_LABEL: Record<Locale, string> = { en: 'About', de: 'Über uns', fr: 'À propos', uk: 'Про нас' }
+const PRICING_LABEL: Record<Locale, string> = { en: 'Pricing', de: 'Preise', fr: 'Tarifs', uk: 'Ціни' }
 
 function text(path: string, locale: Locale): MetaText {
   return pageText[path]?.[locale] ?? pageText['/404'][locale]

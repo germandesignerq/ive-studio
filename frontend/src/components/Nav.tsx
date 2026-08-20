@@ -20,9 +20,9 @@ const navLinks: NavLink[] = [
   { key: 'pricing', to: '/pricing' },
 ]
 
-const langOptions = ['en', 'de', 'fr'] as const
+const langOptions = ['en', 'de', 'fr', 'uk'] as const
 
-/** Переключатель EN/DE/FR в стекле — общий для десктопа и мобильного меню. */
+/** Переключатель EN/DE/FR/UK в стекле — общий для десктопа и мобильного меню. */
 function LangSwitch({ className = '' }: { className?: string }) {
   const { lang, setLang } = useLanguage()
   const index = langOptions.indexOf(lang)
@@ -32,7 +32,7 @@ function LangSwitch({ className = '' }: { className?: string }) {
     >
       <span
         aria-hidden
-        className="absolute top-[3px] bottom-[3px] left-[3px] w-[calc(33.333%-2px)] rounded-full border border-[rgba(233,201,127,.35)] bg-[rgba(233,201,127,.16)] shadow-[inset_0_1px_0_rgba(255,255,255,.25)] backdrop-blur-md transition-transform duration-300 ease-[var(--ease)]"
+        className="absolute top-[3px] bottom-[3px] left-[3px] w-[calc(25%-1.5px)] rounded-full border border-[rgba(233,201,127,.35)] bg-[rgba(233,201,127,.16)] shadow-[inset_0_1px_0_rgba(255,255,255,.25)] backdrop-blur-md transition-transform duration-300 ease-[var(--ease)]"
         style={{ transform: `translateX(${index * 100}%)` }}
       />
       {langOptions.map((l) => (
@@ -41,7 +41,7 @@ function LangSwitch({ className = '' }: { className?: string }) {
           type="button"
           onClick={() => setLang(l)}
           aria-pressed={lang === l}
-          className={`relative z-[1] cursor-pointer px-[11px] py-[6px] uppercase transition-colors duration-300 ${
+          className={`relative z-[1] cursor-pointer px-[9px] py-[6px] uppercase transition-colors duration-300 ${
             lang === l ? 'text-gold-soft' : 'text-fg-3 hover:text-fg-2'
           }`}
         >
