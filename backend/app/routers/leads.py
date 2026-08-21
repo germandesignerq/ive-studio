@@ -1,10 +1,11 @@
 import logging
 from typing import List, Optional
 
-from fastapi import APIRouter, Depends, Header, HTTPException, Request, status
+from fastapi import APIRouter, BackgroundTasks, Depends, Header, HTTPException, Request, status
 
 from ..config import settings
 from ..db import insert_lead, list_leads
+from ..mailer import send_lead_notification
 from ..schemas import LeadIn, LeadOut, LeadRecord
 
 router = APIRouter(prefix="/api", tags=["leads"])
@@ -20,10 +21,12 @@ def require_admin(x_admin_token: Optional[str] = Header(default=None)) -> None:
 
 
 @router.post("/leads", response_model=LeadOut, status_code=status.HTTP_201_CREATED)
-def create_lead(lead: LeadIn, request: Request) -> LeadOut:
+def create_lead(lead: LeadIn, request: Request, background_tasks: BackgroundTasks) -> LeadOut:
     client_ip = request.client.host if request.client else None
     row = insert_lead(lead, client_ip)
     log.info("lead #%s from %s (%s)", row["id"], row["email"], row["source"])
+    # письмо шлём в фоне — заявка уже сохранена, ждать SMTP незачем
+    background_tasks.add_task(send_lead_notification, lead, row["id"])
     return LeadOut(id=row["id"], created_at=row["created_at"])
 
 

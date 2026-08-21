@@ -20,5 +20,14 @@ class Settings(BaseSettings):
     # токен для чтения заявок через GET /api/leads; пустой — эндпоинт закрыт
     admin_token: str = ""
 
+    # уведомление на почту о новой заявке; пустой smtp_user — уведомления выключены,
+    # заявка всё равно сохранится в базу
+    smtp_host: str = "smtp.gmail.com"
+    smtp_port: int = 587
+    smtp_user: str = ""
+    smtp_password: str = ""
+    # куда слать уведомления; по умолчанию — тот же ящик, что отправляет письмо
+    notify_email: str = ""
+
 
 settings = Settings()
