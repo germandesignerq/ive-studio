@@ -85,7 +85,18 @@ export function CallModal() {
       })
       setDone(true)
     } catch (err) {
-      setFailure(err instanceof ApiError ? err.message : t.leadForm.couldNotSend)
+      if (err instanceof ApiError) {
+        setFailure(err.message)
+        const f = err.fields
+        if (f) {
+          setErrors((e) => ({ ...e, name: !!f.name, email: !!f.email, message: !!f.message }))
+          if (f.name) nameRef.current?.focus()
+          else if (f.email) emailRef.current?.focus()
+          else if (f.message) messageRef.current?.focus()
+        }
+      } else {
+        setFailure(t.leadForm.couldNotSend)
+      }
     } finally {
       setSending(false)
     }
@@ -196,6 +207,7 @@ export function CallModal() {
                     type="text"
                     placeholder="Alex Petrov"
                     value={values.name}
+                    maxLength={120}
                     onChange={(e) => set('name')(e.target.value)}
                   />
                 </Field>
@@ -231,6 +243,7 @@ export function CallModal() {
                   name="message"
                   placeholder={t.callModal.messagePlaceholder}
                   value={values.message}
+                  maxLength={5000}
                   onChange={(e) => set('message')(e.target.value)}
                 />
               </Field>

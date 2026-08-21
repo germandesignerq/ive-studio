@@ -66,7 +66,20 @@ export function LeadForm({ source }: { source: string }) {
       })
       setDone(true)
     } catch (err) {
-      setFailure(err instanceof ApiError ? err.message : t.leadForm.couldNotSend)
+      if (err instanceof ApiError) {
+        setFailure(err.message)
+        // сервер тоже мог отклонить поле (например, слишком длинное сообщение) —
+        // без этого «check the highlighted fields» подсвечивать было бы нечего
+        const f = err.fields
+        if (f) {
+          setErrors((e) => ({ ...e, name: !!f.name, email: !!f.email, message: !!f.message }))
+          if (f.name) nameRef.current?.focus()
+          else if (f.email) emailRef.current?.focus()
+          else if (f.message) messageRef.current?.focus()
+        }
+      } else {
+        setFailure(t.leadForm.couldNotSend)
+      }
     } finally {
       setSending(false)
     }
@@ -101,6 +114,7 @@ export function LeadForm({ source }: { source: string }) {
                 type="text"
                 placeholder="Alex Petrov"
                 value={values.name}
+                maxLength={120}
                 onChange={(e) => set('name')(e.target.value)}
               />
             </Field>
@@ -130,6 +144,7 @@ export function LeadForm({ source }: { source: string }) {
               type="text"
               placeholder="company.com"
               value={values.company}
+              maxLength={200}
               onChange={(e) => set('company')(e.target.value)}
             />
           </Field>
@@ -197,6 +212,7 @@ export function LeadForm({ source }: { source: string }) {
               name="message"
               placeholder={t.leadForm.messagePlaceholder}
               value={values.message}
+              maxLength={5000}
               onChange={(e) => set('message')(e.target.value)}
               className="min-h-[104px]"
             />
