@@ -28,6 +28,26 @@
 }
 
 /* ──────────────────────────────────────────────────────────────
+   Кириллицы в Outfit нет вообще — украинская версия рисовалась
+   подстановочным системным шрифтом, разным на каждой машине.
+   Onest — тот же геометрический грот с высоким ростом строчных,
+   и в нём есть і, ї, є, ґ. Подключён как отдельное семейство:
+   браузер сам берёт его для символов, которых нет в Outfit.
+   ────────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'Onest';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('/fonts/onest-cyrillic.woff2') format('woff2');
+  /* Строчные у Onest на 11% выше, чем у Outfit: без поправки в строке
+     «UX/UI-дизайну» латиница выглядела бы мельче кириллицы. 95% —
+     компромисс: рост строчных почти сходится, прописные не проседают. */
+  size-adjust: 95%;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+/* ──────────────────────────────────────────────────────────────
    Дизайн-токены. Через @theme они становятся утилитами Tailwind:
    bg-bg, text-fg-2, border-line, rounded-lg-x, font-label и т.д.
    ────────────────────────────────────────────────────────────── */
@@ -49,10 +69,10 @@
   --radius-md-x: 16px;
   --radius-sm-x: 11px;
 
-  --font-sans: 'Outfit', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-sans: 'Outfit', 'Onest', system-ui, -apple-system, 'Segoe UI', sans-serif;
   /* Подписи, даты, номера шагов. Раньше был моноширинный JetBrains Mono —
      на мелком кегле он читался плохо, поэтому это тот же Outfit. */
-  --font-label: 'Outfit', system-ui, -apple-system, sans-serif;
+  --font-label: 'Outfit', 'Onest', system-ui, -apple-system, sans-serif;
 
   --ease-brand: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
