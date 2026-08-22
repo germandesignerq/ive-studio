@@ -1,4 +1,5 @@
 import { works } from '@/data/works'
+import { Picture } from '@/components/Picture'
 
 /**
  * Лента скриншотов проектов в шапке: едет сама, на ховер замирает.
@@ -35,11 +36,10 @@ export function HeroMarquee() {
 
 function Shot({ name, img, url }: { name: string; img: string; url?: string }) {
   const inner = (
-    <img
+    <Picture
       src={img}
       alt={name}
-      loading="lazy"
-      decoding="async"
+      sizes="(max-width: 680px) 232px, 310px"
       className="h-full w-full object-cover object-top"
     />
   )

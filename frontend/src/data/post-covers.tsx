@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react'
+import { Picture } from '@/components/Picture'
 
 /**
  * Обложки статей: генерируемые SVG, по одной на пост.
@@ -346,24 +347,22 @@ export function PostVisual({
   post,
   className = '',
   loading,
+  sizes,
 }: {
   post: { cover: PostCoverKey; image?: string; title: string }
   className?: string
   loading?: 'lazy' | 'eager'
+  /** ширина на экране — по ней браузер выбирает вариант; см. Picture */
+  sizes?: string
 }) {
   if (post.image) {
     return (
-      <img
+      <Picture
         src={post.image}
         alt={post.title}
-        /* Размеры заданы явно: без них браузер не знает высоту до загрузки
-           и страница дёргается — это и есть CLS в Core Web Vitals. */
-        width={1600}
-        height={1000}
-        loading={loading}
+        sizes={sizes}
         // eager-обложка — LCP-элемент страницы, её стоит забрать первой
-        fetchPriority={loading === 'eager' ? 'high' : undefined}
-        decoding={loading === 'eager' ? 'sync' : 'async'}
+        priority={loading === 'eager'}
         className={className}
       />
     )

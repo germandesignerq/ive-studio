@@ -43,6 +43,7 @@ export function Blog() {
               <PostVisual
                 post={featuredPost}
                 loading="eager"
+                sizes="(min-width: 1000px) 600px, 100vw"
                 className="absolute inset-0 h-full w-full object-cover transition-transform duration-[600ms] group-hover:scale-105"
               />
             </div>
@@ -104,6 +105,7 @@ export function Blog() {
                   <PostVisual
                     post={p}
                     loading="lazy"
+                    sizes="(max-width: 1000px) 120px, 170px"
                     className="absolute inset-0 h-full w-full object-cover transition-transform duration-[600ms] group-hover:scale-105"
                   />
                 </div>

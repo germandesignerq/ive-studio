@@ -11,6 +11,7 @@ import { ArrowRight } from '@/components/icons'
 import { PostVisual } from '@/data/post-covers'
 import { allPostsFor, displayDate } from '@/data/posts-locale'
 import { useLanguage } from '@/i18n/LanguageContext'
+import { Picture } from '@/components/Picture'
 
 export function Post() {
   const { slug } = useParams()
@@ -41,6 +42,13 @@ export function Post() {
             <span className="font-label text-[16px] text-fg-2">
               {displayDate(post.date, lang)} · {post.read} {t.blog.read}
             </span>
+            {/* Дата правки видна читателю, а не только поисковику: в разметке
+                она уже есть как dateModified, и расходиться им нельзя. */}
+            {post.updated && (
+              <span className="font-label text-[16px] text-fg-3">
+                {t.blog.updated} {displayDate(post.updated, lang)}
+              </span>
+            )}
           </div>
 
           <h1 className="max-w-[20ch] text-[clamp(34px,5.4vw,60px)] tracking-[-.045em] max-[680px]:max-w-none">
@@ -51,12 +59,11 @@ export function Post() {
           </p>
 
           <div className="mt-10 flex items-center gap-[14px] border-t border-line pt-7">
-            <img
+            <Picture
               className="ava h-12 w-12 rounded-full object-cover"
               src="/herman.jpg"
               alt="Herman Hubanov"
-              width={800}
-              height={800}
+              sizes="48px"
             />
             <div>
               <b className="block text-[16px] font-semibold">Herman Hubanov</b>
@@ -69,7 +76,12 @@ export function Post() {
       {/* ── COVER ── */}
       <Reveal className="wrap mt-[46px]">
         <div className="relative aspect-16/7 overflow-hidden rounded-lg-x border border-line bg-[#0D0D10]">
-          <PostVisual post={post} loading="eager" className="absolute inset-0 h-full w-full object-cover" />
+          <PostVisual
+            post={post}
+            loading="eager"
+            sizes="(min-width: 1240px) 1144px, 100vw"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
         </div>
         <p className="mt-[14px] text-center text-[14px] font-light text-fg-3">
           {post.coverCaption}

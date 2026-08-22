@@ -5,6 +5,7 @@ import { Counter } from '@/components/Counter'
 import { CtaSection } from '@/components/CtaSection'
 import { useFollowGlow } from '@/hooks/useFollowGlow'
 import { useLanguage } from '@/i18n/LanguageContext'
+import { Picture } from '@/components/Picture'
 
 const SOURCE = 'about page'
 
@@ -133,13 +134,11 @@ export function About() {
             {team.map((m, i) => (
               <Reveal key={m.name} as="article" delay={(i % 3) * 70} className="group relative min-w-0">
                 <div className="relative h-0 w-full overflow-hidden rounded-lg-x border border-line bg-[#101013] pt-[100%] transition-[transform,border-color] duration-[450ms] ease-[var(--ease)] group-hover:-translate-y-1 group-hover:border-[rgba(233,201,127,.3)]">
-                  <img
+                  <Picture
                     className="absolute top-0 left-0 block h-full w-full object-cover"
                     src={m.img}
                     alt={`${m.name} — ${m.role}, IVE studio`}
-                    width={800}
-                    height={800}
-                    loading="lazy"
+                    sizes="(min-width: 1000px) 350px, min(420px, 100vw)"
                   />
                 </div>
                 <h3 className="mt-[18px] text-[22px] font-medium tracking-[-.025em]">{m.name}</h3>

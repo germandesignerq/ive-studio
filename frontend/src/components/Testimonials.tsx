@@ -1,6 +1,7 @@
 import { avatars } from '@/data/avatars'
 import { reviews, type Review } from '@/data/reviews'
 import { Star } from './icons'
+import { Picture } from '@/components/Picture'
 
 function Card({ review }: { review: Review }) {
   return (
@@ -15,13 +16,11 @@ function Card({ review }: { review: Review }) {
       </blockquote>
       <figcaption className="mt-6 flex items-center gap-[13px] border-t border-line pt-5">
         {review.img ? (
-          <img
+          <Picture
             className="ava h-12 w-12 flex-none rounded-full object-cover"
             src={review.img}
             alt={`${review.name}, ${review.role}`}
-            width={96}
-            height={96}
-            loading="lazy"
+            sizes="48px"
           />
         ) : (
           <div

@@ -38,6 +38,14 @@ export type Post = {
   category: PostFilter
   categoryLabel: string
   date: string
+  /**
+   * Дата последней правки — заполняется, когда статью действительно
+   * переписали. Отсюда берутся dateModified в разметке, lastmod в sitemap
+   * и подпись «Обновлено» под заголовком. Пусто — значит статья не менялась
+   * с публикации, и придумывать свежую дату нельзя: Google сверяет её
+   * с содержимым и перестаёт доверять всему файлу.
+   */
+  updated?: string
   read: string
   excerpt: string
   cover: PostCoverKey

@@ -8,6 +8,7 @@ import { CtaSection } from '@/components/CtaSection'
 import { ArrowRight } from '@/components/icons'
 import { works } from '@/data/works'
 import { useLanguage } from '@/i18n/LanguageContext'
+import { Picture } from '@/components/Picture'
 
 export function CaseStudy() {
   const { slug } = useParams()
@@ -46,13 +47,12 @@ export function CaseStudy() {
       {/* ── 2. ГЛАВНОЕ ФОТО ── */}
       <Reveal className="wrap mt-[10px]">
         {work.img ? (
-          <img
+          <Picture
             className="block h-auto w-full rounded-lg-x border border-line"
             src={work.img}
             alt={`${work.name} — ${work.tags}`}
-            width={1600}
-            height={1000}
-            fetchPriority="high"
+            sizes="(min-width: 1240px) 1144px, 100vw"
+            priority
           />
         ) : (
           <div className="ph aspect-video">

@@ -5,6 +5,7 @@ import { visibleWorks, workFilters, type Work, type WorkFilterKey } from '@/data
 import { useLanguage } from '@/i18n/LanguageContext'
 import { Reveal } from './Reveal'
 import { ArrowRight } from './icons'
+import { Picture } from '@/components/Picture'
 
 export function WorkGrid() {
   const [filter, setFilter] = useState<WorkFilterKey>('all')
@@ -47,13 +48,10 @@ export function WorkGrid() {
               <CardShell work={w}>
                 <div className="work-cover relative aspect-16/10 overflow-hidden rounded-t-[25px] bg-[#0D0D10]">
                   {w.img ? (
-                    <img
+                    <Picture
                       src={w.img}
                       alt={`${w.name} — ${w.tags}`}
-                      width={1600}
-                      height={1000}
-                      loading="lazy"
-                      decoding="async"
+                      sizes="(min-width: 1000px) 560px, 100vw"
                       className="absolute inset-0 h-full w-full object-cover transition-transform duration-[600ms]"
                     />
                   ) : (
