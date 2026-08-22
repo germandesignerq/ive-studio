@@ -7,3 +7,8 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv
 }
+
+interface Window {
+  /** Google Analytics; может не подняться — блокировщики режут gtag.js. */
+  gtag?: (...args: unknown[]) => void
+}

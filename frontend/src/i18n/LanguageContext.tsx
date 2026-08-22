@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, type ReactNode } from 'react'
 import { useLocation, useNavigate } from 'react-router'
-import { DEFAULT_LOCALE, HTML_LANG, LOCALES, localePath, splitLocale, type Locale } from '@/lib/site'
+import { HTML_LANG, LOCALES, localePath, splitLocale, type Locale } from '@/lib/site'
+import { storeLocale } from './detect'
 import { dict } from './dictionary'
 
 export type Language = Locale
@@ -16,12 +17,11 @@ type LanguageContextValue = {
 
 const LanguageContext = createContext<LanguageContextValue | null>(null)
 
-const STORAGE_KEY = 'ive-lang'
-
 /**
  * Язык живёт в адресе, а не в localStorage: у немецкой и французской версии
  * теперь свои URL, и поисковик может их проиндексировать.
- * localStorage остался только как память о выборе для первого захода на «/».
+ * localStorage остался только как память о выборе — по ней автодетект
+ * (см. detect.ts) понимает, что человек уже выбрал язык сам.
  */
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const { pathname } = useLocation()
@@ -30,11 +30,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.documentElement.lang = HTML_LANG[locale]
-    try {
-      localStorage.setItem(STORAGE_KEY, locale)
-    } catch {
-      /* приватный режим — просто не запоминаем */
-    }
+    storeLocale(locale)
   }, [locale])
 
   const value = useMemo<LanguageContextValue>(() => {
@@ -64,13 +60,3 @@ export function useLocalized() {
   return (v: Localized) => v[lang]
 }
 
-/** Язык, выбранный в прошлый раз — используется только для редиректа с «/». */
-export function rememberedLocale(): Locale {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY)
-    if (stored && (LOCALES as readonly string[]).includes(stored)) return stored as Locale
-  } catch {
-    /* нет доступа к хранилищу */
-  }
-  return DEFAULT_LOCALE
-}
