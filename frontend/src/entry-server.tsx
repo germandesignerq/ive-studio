@@ -11,6 +11,6 @@ export function render(url: string): string {
   )
 }
 
-export { allRoutes, metaFor } from './lib/seo'
+export { allRoutes, feedFor, metaFor } from './lib/seo'
 export { buildHead, renderHead } from './lib/head'
 export { HTML_LANG, LOCALES, SITE_URL, localePath } from './lib/site'

@@ -3,7 +3,7 @@
  * клиент применяет тот же список при навигации — так статика и SPA не разъезжаются.
  */
 import { alternateLinks, type PageMeta } from './seo'
-import { HTML_LANG, SITE_NAME } from './site'
+import { HTML_LANG, SITE_NAME, absoluteUrl, localePath } from './site'
 
 export type HeadTag =
   | { tag: 'title'; text: string }
@@ -42,6 +42,18 @@ export function buildHead(meta: PageMeta): HeadTag[] {
     { tag: 'meta', attrs: { name: 'twitter:image', content: meta.image } },
   ]
 
+  /* Фид: читалки и агрегаторы ищут именно этот тег, и только на страницах блога. */
+  if (meta.path === '/blog' || meta.path.startsWith('/blog/'))
+    tags.push({
+      tag: 'link',
+      attrs: {
+        rel: 'alternate',
+        type: 'application/rss+xml',
+        title: `${SITE_NAME} — blog`,
+        href: absoluteUrl(localePath('/rss.xml', meta.locale)),
+      },
+    })
+
   for (const alt of meta.alternates)
     if (alt !== meta.locale)
       tags.push({
@@ -62,7 +74,7 @@ export function buildHead(meta: PageMeta): HeadTag[] {
   return tags
 }
 
-const OG_LOCALES: Record<string, string> = { en: 'en_US', de: 'de_DE', fr: 'fr_FR' }
+const OG_LOCALES: Record<string, string> = { en: 'en_US', de: 'de_DE', fr: 'fr_FR', uk: 'uk_UA' }
 function ogLocale(locale: keyof typeof HTML_LANG): string {
   return OG_LOCALES[locale] ?? 'en_US'
 }

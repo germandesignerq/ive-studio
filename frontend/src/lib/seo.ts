@@ -2,17 +2,21 @@
  * Метаданные страниц: одно чистое место, из которого их берут и клиент, и пререндер.
  * Никаких браузерных API — модуль импортируется в Node во время сборки.
  */
+import { faq } from '@/data/faq'
 import { plans } from '@/data/plans'
 import { allPosts, type Post } from '@/data/posts'
 import { allPostsFor } from '@/data/posts-locale'
 import { SHOW_CASE_STUDIES, works, type Work } from '@/data/works'
 import {
+  AUTHOR_NAME,
+  AUTHOR_PROFILES,
   DEFAULT_LOCALE,
   HTML_LANG,
   LOCALES,
   OG_IMAGE,
   SITE_EMAIL,
   SITE_NAME,
+  SITE_PROFILES,
   SITE_URL,
   absoluteUrl,
   localePath,
@@ -170,16 +174,41 @@ const pageText: Record<string, LocalizedMeta> = {
   },
 }
 
-/** Страницы, у которых есть перевод — только они получают hreflang и попадают в sitemap на трёх языках. */
+/** Страницы, у которых есть перевод — только они получают hreflang и попадают в sitemap на четырёх языках. */
 const TRANSLATED_PAGES = new Set(['/', '/about', '/pricing', '/blog'])
 
 /** Статьи переведены целиком, поэтому у каждой тоже есть версии на всех языках. */
 const isTranslated = (path: string) => TRANSLATED_PAGES.has(path) || path.startsWith('/blog/')
 
+/**
+ * Страницы, чей текст действительно существует на всех языках. 404 сюда входит
+ * (он рисуется из словаря), а политика и кейсы — нет: у них заголовок остаётся
+ * английским. Немецкий <title> над английским текстом читается как обман —
+ * и посетителем, и алгоритмом, который сверяет заголовок с содержимым.
+ */
+const hasLocalizedBody = (path: string) => isTranslated(path) || path === '/404'
+
 /* ────────────────────────── JSON-LD ────────────────────────── */
 
 const ORG_ID = `${SITE_URL}/#organization`
 const SITE_ID = `${SITE_URL}/#website`
+const AUTHOR_ID = `${SITE_URL}/about#author`
+
+/**
+ * Автор статей — отдельный узел, а не строка внутри каждой BlogPosting:
+ * так у него один устойчивый @id, страница «About» и ссылки на профили.
+ * Без этого поисковику не с чем связать имя, и авторство просто не считается.
+ */
+export const authorLd = {
+  '@type': 'Person',
+  '@id': AUTHOR_ID,
+  name: AUTHOR_NAME,
+  jobTitle: 'Founder · Designer',
+  url: absoluteUrl('/about'),
+  worksFor: { '@id': ORG_ID },
+  knowsAbout: ['UX design', 'UI design', 'Conversion optimisation', 'Web development'],
+  ...(AUTHOR_PROFILES.length ? { sameAs: AUTHOR_PROFILES } : {}),
+}
 
 export const organizationLd = {
   '@type': 'ProfessionalService',
@@ -192,10 +221,11 @@ export const organizationLd = {
   logo: { '@type': 'ImageObject', url: absoluteUrl('/favicon.svg') },
   description:
     'UX/UI design and web development studio. We design and build websites, SaaS products and MVPs that convert.',
-  founder: { '@type': 'Person', name: 'Herman Hubanov' },
-  knowsLanguage: ['en', 'de', 'fr'],
+  founder: { '@id': AUTHOR_ID },
+  knowsLanguage: LOCALES.map((l) => HTML_LANG[l]),
   areaServed: 'Worldwide',
   priceRange: '$$$',
+  ...(SITE_PROFILES.length ? { sameAs: SITE_PROFILES } : {}),
   serviceType: [
     'UX/UI design',
     'Web development',
@@ -248,16 +278,11 @@ function postLd(post: Post, locale: Locale) {
     description: post.excerpt,
     image: absoluteUrl(post.image ?? OG_IMAGE),
     datePublished: isoDate(post.date),
-    dateModified: isoDate(post.date),
+    dateModified: isoDate(post.updated ?? post.date),
     articleSection: post.categoryLabel,
     inLanguage: HTML_LANG[locale],
     wordCount: countWords(post),
-    author: {
-      '@type': 'Person',
-      name: 'Herman Hubanov',
-      jobTitle: 'Founder · Designer',
-      url: absoluteUrl(localePath('/about', locale)),
-    },
+    author: { '@id': AUTHOR_ID },
     publisher: { '@id': ORG_ID },
     mainEntityOfPage: { '@type': 'WebPage', '@id': url },
   }
@@ -326,6 +351,23 @@ function pricingLd(locale: Locale) {
   }
 }
 
+/**
+ * Вопросы с главной. Текст обязан совпадать с тем, что видно на странице, —
+ * поэтому и разметка, и секция читают один и тот же data/faq.ts.
+ */
+function faqLd(locale: Locale) {
+  return {
+    '@type': 'FAQPage',
+    '@id': `${absoluteUrl(localePath('/', locale))}#faq`,
+    inLanguage: HTML_LANG[locale],
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.q[locale],
+      acceptedAnswer: { '@type': 'Answer', text: item.a[locale] },
+    })),
+  }
+}
+
 /* ────────────────────────── резолвер ────────────────────────── */
 
 const BLOG_LABEL: Record<Locale, string> = { en: 'Blog', de: 'Blog', fr: 'Blog', uk: 'Блог' }
@@ -367,6 +409,7 @@ export function metaFor(pathname: string): PageMeta {
         ogType: 'article',
         jsonLd: [
           postLd(post, locale),
+          authorLd,
           breadcrumbLd(locale, [
             { name: HOME_LABEL[locale], path: '/' },
             { name: BLOG_LABEL[locale], path: '/blog' },
@@ -402,12 +445,15 @@ export function metaFor(pathname: string): PageMeta {
   }
 
   const known = pageText[path] !== undefined
-  const t = text(known ? path : '/404', locale)
+  /* незнакомый адрес — это 404, а он переведён; политика и кейсы — нет */
+  const textLocale = !known || hasLocalizedBody(path) ? locale : DEFAULT_LOCALE
+  const t = text(known ? path : '/404', textLocale)
 
   const jsonLd: object[] = []
-  if (path === '/') jsonLd.push(organizationLd, websiteLd)
+  if (path === '/') jsonLd.push(organizationLd, authorLd, websiteLd, faqLd(locale))
   if (path === '/about')
     jsonLd.push(
+      authorLd,
       { '@type': 'AboutPage', name: t.title, description: t.description, mainEntity: { '@id': ORG_ID } },
       breadcrumbLd(locale, [
         { name: HOME_LABEL[locale], path: '/' },
@@ -454,6 +500,29 @@ export function metaFor(pathname: string): PageMeta {
   }
 }
 
+/**
+ * Данные для RSS: XML печатает пререндер, здесь — только содержимое.
+ * Фид у каждого языка свой, иначе немецкий читатель подписался бы на английский.
+ */
+export function feedFor(locale: Locale) {
+  const meta = text('/blog', locale)
+  return {
+    path: localePath('/rss.xml', locale),
+    title: meta.title,
+    description: meta.description,
+    link: absoluteUrl(localePath('/blog', locale)),
+    language: HTML_LANG[locale],
+    items: allPostsFor(locale).map((post) => ({
+      title: post.title,
+      link: absoluteUrl(localePath(`/blog/${post.slug}`, locale)),
+      description: post.excerpt,
+      /* уже нормализованная дата: RFC-822 в пререндере строится из неё */
+      date: isoDate(post.updated ?? post.date),
+      category: post.categoryLabel,
+    })),
+  }
+}
+
 /** Ссылки hreflang для страницы — включая x-default на английскую версию. */
 export function alternateLinks(meta: PageMeta): Array<{ hreflang: string; href: string }> {
   if (meta.alternates.length < 2) return []
@@ -465,18 +534,47 @@ export function alternateLinks(meta: PageMeta): Array<{ hreflang: string; href: 
   return links
 }
 
-/** Все индексируемые URL сайта — основа sitemap.xml и списка маршрутов для пререндера. */
-export function allRoutes(): Array<{ path: string; locales: Locale[] }> {
-  const routes: Array<{ path: string; locales: Locale[] }> = [
-    { path: '/', locales: [...LOCALES] },
-    { path: '/about', locales: [...LOCALES] },
-    { path: '/pricing', locales: [...LOCALES] },
-    { path: '/blog', locales: [...LOCALES] },
-    { path: '/privacy', locales: [DEFAULT_LOCALE] },
+export type RouteEntry = {
+  path: string
+  /** языки, под которыми адрес открывается, — их и пререндерим */
+  locales: Locale[]
+  /** языки, которые идут в sitemap; у непереведённых страниц это только английский */
+  indexed: Locale[]
+  /**
+   * Дата последнего изменения для sitemap — есть только там, где её знаем
+   * (у статей). Остальным её проставляет сборка: они и правда пересобираются
+   * каждый деплой. Одинаковый lastmod на всех адресах поисковик игнорирует.
+   */
+  lastmod?: string
+}
+
+/**
+ * Все адреса сайта — основа sitemap.xml и списка маршрутов для пререндера.
+ *
+ * Непереведённые страницы (политика, кейсы) всё равно собираются под каждым
+ * префиксом: меню и подвал строят ссылки от текущего языка, и без файла
+ * `/de/privacy` немецкий посетитель упирался бы в 404. Текст там английский,
+ * canonical ведёт на `/privacy`, поэтому в sitemap такие копии не попадают.
+ */
+export function allRoutes(): RouteEntry[] {
+  const all = [...LOCALES]
+  const routes: RouteEntry[] = [
+    { path: '/', locales: all, indexed: all },
+    { path: '/about', locales: all, indexed: all },
+    { path: '/pricing', locales: all, indexed: all },
+    { path: '/blog', locales: all, indexed: all },
+    { path: '/privacy', locales: all, indexed: [DEFAULT_LOCALE] },
   ]
-  for (const p of allPosts) routes.push({ path: `/blog/${p.slug}`, locales: [...LOCALES] })
+  for (const p of allPosts)
+    routes.push({
+      path: `/blog/${p.slug}`,
+      locales: all,
+      indexed: all,
+      lastmod: isoDate(p.updated ?? p.date),
+    })
   if (SHOW_CASE_STUDIES)
     for (const w of works)
-      if (w.caseStudy) routes.push({ path: `/work/${w.slug}`, locales: [DEFAULT_LOCALE] })
+      if (w.caseStudy)
+        routes.push({ path: `/work/${w.slug}`, locales: all, indexed: [DEFAULT_LOCALE] })
   return routes
 }

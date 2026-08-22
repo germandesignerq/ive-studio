@@ -1,6 +1,7 @@
 import { Nav } from '@/components/Nav'
 import { Footer } from '@/components/Footer'
 import { Reveal } from '@/components/Reveal'
+import { Faq } from '@/components/Faq'
 import { WorkGrid } from '@/components/WorkGrid'
 import { Testimonials } from '@/components/Testimonials'
 // import { Partners } from '@/components/Partners' // временно скрыто, не удалять
@@ -247,6 +248,18 @@ export function Home() {
             </li>
           ))}
         </Reveal>
+      </Section>
+
+      {/* ── FAQ ── */}
+      <Section tight id="faq">
+        <Reveal as="span" className="eyebrow">
+          {t.home.faqEyebrow}
+        </Reveal>
+        <Reveal as="h2" className="mt-4 text-[clamp(32px,4.8vw,60px)] tracking-[-.042em]">
+          {t.home.faqTitle}
+          <span className="em">{t.home.faqTitleEm}</span>
+        </Reveal>
+        <Faq />
       </Section>
 
       {/* ── FINAL CTA + FORM ── */}
