@@ -27,8 +27,27 @@
       function gtag() {
         dataLayer.push(arguments)
       }
+      // Consent Mode: до ответа посетителя аналитика работает без cookie
+      // и без идентификатора. Это стоит здесь, а не в бандле, — иначе первый
+      // хит успел бы уйти с полным набором до всякого согласия.
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        wait_for_update: 500,
+      })
+      try {
+        if (localStorage.getItem('ive-consent') === 'granted')
+          gtag('consent', 'update', { analytics_storage: 'granted' })
+      } catch (e) {
+        /* приватный режим — остаёмся на отказе */
+      }
       gtag('js', new Date())
-      gtag('config', 'G-SS4H5LTY22')
+      // Просмотр страницы отправляет main.tsx — после того, как решён язык.
+      // Иначе у каждого немецкого визита сначала засчитывалась бы английская «/»,
+      // с которой посетитель тут же «ушёл»: лишний просмотр и ложный отказ.
+      gtag('config', 'G-SS4H5LTY22', { send_page_view: false })
     </script>
   </head>
   <body>

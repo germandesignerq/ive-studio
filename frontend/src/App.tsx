@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Navigate, Outlet, Route, Routes, useLocation, useParams } from 'react-router'
 import { CallModalProvider } from '@/context/CallModalContext'
 import { CallModal } from '@/components/CallModal'
+import { CookieBanner } from '@/components/CookieBanner'
 import { Seo } from '@/components/Seo'
 import { LanguageProvider } from '@/i18n/LanguageContext'
 import { Home } from '@/pages/Home'
@@ -73,6 +74,7 @@ export default function App() {
           </Route>
         </Routes>
         <CallModal />
+        <CookieBanner />
       </CallModalProvider>
     </LanguageProvider>
   )
